@@ -1,58 +1,41 @@
 package cards;
 
-public abstract class Feitico extends Carta {
-
+public class Feitico extends Carta {
+    private String efeito;
     private int vidaAdicionada;
     private int ataqueAdicionado;
-    private String efeito;
-    private String imagem;
 
-    public Feitico(String nome, int custoMana, String descricao, String efeito, int vidaAdicionada, int ataqueAdicionado, String imagem) {
-        super(nome, custoMana, descricao);
+    public Feitico(String nome, int mana, String descricao, String efeito, int vidaAdicionada, int ataqueAdicionado, String imagem) {
+        super(nome, descricao, imagem, 0, 0, mana);  
         this.efeito = efeito;
         this.vidaAdicionada = vidaAdicionada;
         this.ataqueAdicionado = ataqueAdicionado;
-        this.imagem = imagem;
     }
 
-    public int getVidaAdicionada() {
-        return vidaAdicionada;
+    @Override
+    public int getAtaque() {
+        return 0;  
     }
 
-    public void setVidaAdicionada(int vidaAdicionada) {
-        this.vidaAdicionada = vidaAdicionada;
+    @Override
+    public int getVida() {
+        return 0;  
     }
 
-    public int getAtaqueAdicionado() {
-        return ataqueAdicionado;
-    }
-
-    public void setAtaqueAdicionado(int ataqueAdicionado) {
-        this.ataqueAdicionado = ataqueAdicionado;
+    @Override
+    public int getMana() {
+        return super.getMana();
     }
 
     public String getEfeito() {
         return efeito;
     }
 
-    public void setEfeito(String efeito) {
-        this.efeito = efeito;
+    public int getVidaAdicionada() {
+        return vidaAdicionada;
     }
 
-    public String getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
-
-    @Override
-    public void exibirInformacoes() {
-        super.exibirInformacoes();
-        System.out.println("Efeito: " + efeito);
-        System.out.println("Vida Adicionada: " + vidaAdicionada);
-        System.out.println("Ataque Adicionado: " + ataqueAdicionado);
-        System.out.println("Imagem: " + imagem);
+    public int getAtaqueAdicionado() {
+        return ataqueAdicionado;
     }
 }

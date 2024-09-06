@@ -1,42 +1,23 @@
 package cards;
 
-public abstract class Encantamento extends Carta {
+public class Encantamento extends Carta {
 
-    private int vidaAdicionada;
-    private int ataqueAdicionado;
-    private String imagem;
-
-    public Encantamento(String nome, int custoMana, String descricao, int vidaAdicionada, int ataqueAdicionado, String imagem) {
-        super(nome, custoMana, descricao);
-        this.vidaAdicionada = vidaAdicionada;
-        this.ataqueAdicionado = ataqueAdicionado;
-        this.imagem = imagem;
+    public Encantamento(String nome, int mana, String descricao, int ataque, int vida, String imagem) {
+        super(nome, descricao, imagem, ataque, vida, mana);
     }
 
-    public int getVidaAdicionada() {
-        return vidaAdicionada;
+    @Override
+    public int getAtaque() {
+        return super.getAtaque();
     }
 
-    public void setVidaAdicionada(int vidaAdicionada) {
-        this.vidaAdicionada = vidaAdicionada;
+    @Override
+    public int getVida() {
+        return super.getVida();
     }
 
-    public int getAtaqueAdicionado() {
-        return ataqueAdicionado;
+    @Override
+    public int getMana() {
+        return super.getMana();
     }
-
-    public void setAtaqueAdicionado(int ataqueAdicionado) {
-        this.ataqueAdicionado = ataqueAdicionado;
-    }
-
-    public String getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
-
-   
-    
 }

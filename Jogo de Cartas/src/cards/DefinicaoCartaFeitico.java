@@ -13,11 +13,11 @@ public class DefinicaoCartaFeitico {
     }
 
     private void definirFeiticos() {
-        feiticosDefinidos.put(46, new Feitico("Bola de Fogo", 4, "Causa dano direto ao oponente", "Causa 6 de dano", 0, 6, "images/bola_fogo.png") {});
-        feiticosDefinidos.put(47, new Feitico("Cura Divina", 3, "Restaura vida ao jogador", "Restaura 8 de vida", 8, 0, "images/cura_divina.png") {});
-        feiticosDefinidos.put(48, new Feitico("Raio", 5, "Causa dano a uma criatura", "Causa 10 de dano a uma criatura", 0, 10, "images/raio.png") {});
-        feiticosDefinidos.put(49, new Feitico("Proteção Arcana", 3, "Aumenta a resistência das criaturas", "Aumenta a resistência em 4", 4, 0, "images/protecao_arcana.png") {});
-        feiticosDefinidos.put(50, new Feitico("Controle Mental", 7, "Toma o controle de uma criatura oponente", "Toma controle de uma criatura por 2 turnos", 0, 0, "images/controle_mental.png") {});
+        feiticosDefinidos.put(45, new Feitico("Bola de Energia", 4, "Causa 2 de dano a todos do tabuleiro", "Causa 2 de dano a geral", 0, 6, "src/fotos/46.png") {});
+        feiticosDefinidos.put(46, new Feitico("Bola de Energia", 4, "Causa 2 de dano a todos do tabuleiro", "Causa 2 de dano a geral", 0, 6, "src/fotos/47.png") {});
+        feiticosDefinidos.put(47, new Feitico("Bola de Energia", 4, "Causa 2 de dano a todos do tabuleiro", "Causa 2 de dano a geral", 0, 6, "src/fotos/48.png") {});
+        feiticosDefinidos.put(48, new Feitico("Proteção Arcana", 3, "Aumenta 3 de vida a todos", "Aumenta a vida geral em 3", 4, 0, "src/fotos/49.png") {});
+        feiticosDefinidos.put(49, new Feitico("Armagedom", 7, "Mata todos do Tabuleiro", "Kill @e", 0, 0, "src/fotos/50.png") {});
     }
 
     public Feitico buscarFeitico(int id) {
