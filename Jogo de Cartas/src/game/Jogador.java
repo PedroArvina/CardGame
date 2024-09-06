@@ -9,8 +9,8 @@ public class Jogador {
     private String nome;
     private int vida;
     private int mana;
-    private List<Carta> mao; // Cartas na mão
-    private List<Carta> tabuleiro; // Cartas em jogo
+    private List<Carta> mao; 
+    private List<Carta> tabuleiro; 
 
     public Jogador(String nome, int vidaInicial, int manaInicial) {
         this.nome = nome;
@@ -20,7 +20,7 @@ public class Jogador {
         this.tabuleiro = new ArrayList<>();
     }
 
-    // Métodos básicos
+    
     public String getNome() {
         return nome;
     }
@@ -65,7 +65,7 @@ public class Jogador {
         this.tabuleiro.remove(carta);
     }
 
-    // Método para receber dano
+    
     public void receberDano(int dano) {
         this.vida -= dano;
         if (this.vida < 0) {
@@ -74,15 +74,15 @@ public class Jogador {
         System.out.println(nome + " recebeu " + dano + " de dano. Vida restante: " + this.vida);
     }
 
-    // Método para curar o jogador
+    
     public void curar(int quantidade) {
         this.vida += quantidade;
         System.out.println(nome + " foi curado em " + quantidade + ". Vida atual: " + this.vida);
     }
 
-    // Método para o jogador realizar ações no turno
+    
     public void realizarAcoes() {
-        // Implementar lógica das ações do jogador
+        
         System.out.println(nome + " está realizando suas ações.");
     }
 }

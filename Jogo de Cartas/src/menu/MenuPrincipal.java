@@ -11,13 +11,13 @@ import system.SairJogo;
 public class MenuPrincipal extends JFrame {
 
     public MenuPrincipal() {
-        // Configurações da janela principal
+        
         setTitle("Crônicas de Arcana");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Painel principal com uma imagem de fundo
+        
         JPanel painel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -28,7 +28,7 @@ public class MenuPrincipal extends JFrame {
         };
         painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
 
-        // Título do jogo com fonte estilo RPG
+        
         JLabel titulo = new JLabel("Crônicas de Arcana", JLabel.CENTER);
         titulo.setFont(new Font("Serif", Font.BOLD, 36));
         titulo.setForeground(Color.RED);
@@ -36,7 +36,7 @@ public class MenuPrincipal extends JFrame {
         titulo.setBorder(BorderFactory.createEmptyBorder(20, 0, 40, 0));
         painel.add(titulo);
 
-        // Botões com estilo clássico
+        
         JButton botaoIniciar = criarBotao("Iniciar");
         botaoIniciar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -61,14 +61,14 @@ public class MenuPrincipal extends JFrame {
         });
         painel.add(botaoSair);
 
-        // Adiciona o painel à janela
+        
         add(painel);
 
-        // Torna a janela visível
+        
         setVisible(true);
     }
 
-    // Método para criar botões com estilo RPG
+    
     private JButton criarBotao(String texto) {
         JButton botao = new JButton(texto);
         botao.setFont(new Font("Serif", Font.BOLD, 24));

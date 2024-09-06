@@ -9,8 +9,8 @@ public class Inimigo {
     private String nome;
     private int vida;
     private int mana;
-    private List<Carta> mao; // Cartas na mão
-    private List<Carta> tabuleiro; // Cartas em jogo
+    private List<Carta> mao; 
+    private List<Carta> tabuleiro; 
 
     public Inimigo(String nome, int vidaInicial, int manaInicial) {
         this.nome = nome;
@@ -20,7 +20,7 @@ public class Inimigo {
         this.tabuleiro = new ArrayList<>();
     }
 
-    // Métodos básicos
+    
     public String getNome() {
         return nome;
     }
@@ -65,7 +65,7 @@ public class Inimigo {
         this.tabuleiro.remove(carta);
     }
 
-    // Método para receber dano
+    
     public void receberDano(int dano) {
         this.vida -= dano;
         if (this.vida < 0) {
@@ -74,15 +74,15 @@ public class Inimigo {
         System.out.println(nome + " recebeu " + dano + " de dano. Vida restante: " + this.vida);
     }
 
-    // Método para curar o inimigo
+    
     public void curar(int quantidade) {
         this.vida += quantidade;
         System.out.println(nome + " foi curado em " + quantidade + ". Vida atual: " + this.vida);
     }
 
-    // Método para o inimigo realizar ações automáticas no turno
+    
     public void realizarAcoes() {
-        // Implementar a lógica das ações do inimigo
+        
         System.out.println(nome + " está realizando suas ações automáticas.");
     }
 }

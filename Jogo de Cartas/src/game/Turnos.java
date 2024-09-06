@@ -7,55 +7,63 @@ import interfaces.GameInterface;
 
 public class Turnos {
 
-    private List<Jogador> jogadores;
-    private int turnoAtual;
-    private static final int MAX_MANA = 10; // Valor máximo de cristais de mana
-    private GameInterface gameInterface;
+	public class Turno {
+	    private boolean isJogadorTurno;
+	    private Acessorio acessorio;
+	    private Mana mana;
+	    private Estrutura estrutura;
+	    private GameInterface gameInterface;
 
-    public Turnos(Jogador jogador1, Jogador jogador2, GameInterface gameInterface) {
-        jogadores = new ArrayList<>();
-        jogadores.add(jogador1);
-        jogadores.add(jogador2);
-        this.gameInterface = gameInterface;
-        turnoAtual = 0;
-    }
+	    public Turno(Acessorio acessorio, Mana mana, Estrutura estrutura, GameInterface gameInterface) {
+	        this.isJogadorTurno = true;
+	        this.acessorio = acessorio;
+	        this.mana = mana;
+	        this.estrutura = estrutura;
+	        this.gameInterface = gameInterface;
+	    }
 
-    // Método para iniciar o ciclo de turnos
-    public void iniciarTurnos() {
-        while (!jogoTerminado()) {
-            Jogador jogadorAtual = jogadores.get(turnoAtual);
-            System.out.println("Turno do jogador: " + jogadorAtual.getNome());
+	    public void iniciarTurno() {
+	        if (isJogadorTurno) {
+	            gameInterface.exibirMensagem("Seu Turno");
+	            acessorio.puxarCarta();
+	            estrutura.atualizarMaoJogador();
+	            mana.aumentarMana();
+	        } else {
+	            gameInterface.exibirMensagem("Turno do Vilão");
+	            executarTurnoVilao();
+	        }
+	    }
 
-            // Aumentar o número de cristais de mana do jogador atual
-            int novaMana = Math.min(jogadorAtual.getMana() + 1, MAX_MANA);
-            jogadorAtual.setMana(novaMana);
-            System.out.println(jogadorAtual.getNome() + " agora tem " + jogadorAtual.getMana() + " cristais de mana.");
+	    public void finalizarTurno() {
+	        isJogadorTurno = !isJogadorTurno;
+	        iniciarTurno();
+	    }
 
-            // Atualizar a exibição da mana na interface
-            gameInterface.atualizarMana(novaMana);
+	    private void executarTurnoVilao() {
+	        
+	        acessorio.puxarCarta();
+	        estrutura.atualizarMaoJogador();
 
-            // Aqui você pode implementar as ações que o jogador pode tomar no turno.
-            // Exemplo: jogadorAtual.realizarAcoes();
+	        
+	        if (estrutura.getPainelCampoJogador().getComponentCount() > 0) {
+	            
+	            MolduraCarta cartaJogador = (MolduraCarta) estrutura.getPainelCampoJogador().getComponent(0);
+	            cartaJogador.getCarta().receberDano(1); 
 
-            finalizarTurno();
-        }
+	            
+	            if (cartaJogador.getCarta().getVida() <= 0) {
+	                estrutura.removerCartaDoCampoJogador(cartaJogador.getCarta());
+	            }
+	        }
 
-        System.out.println("O jogo terminou!");
-    }
+	       
+	        finalizarTurno();
+	    }
 
-    // Método para finalizar o turno e passar para o próximo jogador
-    private void finalizarTurno() {
-        turnoAtual = (turnoAtual + 1) % jogadores.size();
-    }
+	    public boolean isJogadorTurno() {
+	        return isJogadorTurno;
+	    }
+	}}
 
-    // Verifica se o jogo terminou (condição de vitória)
-    private boolean jogoTerminado() {
-        for (Jogador jogador : jogadores) {
-            if (jogador.getVida() <= 0) {
-                System.out.println("O jogador " + jogador.getNome() + " perdeu!");
-                return true;
-            }
-        }
-        return false;
-    }
-}
+	
+
