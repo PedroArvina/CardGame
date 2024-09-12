@@ -7,7 +7,9 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Estrutura {
 
@@ -17,9 +19,17 @@ public class Estrutura {
     private Acessorio acessorio;
     private Mana mana;
 
+    // Mapas para armazenar as cartas no campo do jogador e do inimigo com seus estados preservados
+    private Map<Carta, MolduraCarta> cartasCampoJogador;
+    private Map<Carta, MolduraCarta> cartasCampoInimigo;
+
     public Estrutura(Acessorio acessorio, Mana mana) {
         this.acessorio = acessorio;
         this.mana = mana;
+
+        // Inicialização dos mapas de cartas no campo
+        cartasCampoJogador = new HashMap<>();
+        cartasCampoInimigo = new HashMap<>();
 
         criarPainelMaoJogador();
         criarPainelCampoJogador();
@@ -33,7 +43,7 @@ public class Estrutura {
     }
 
     private void criarPainelCampoJogador() {
-        painelCampoJogador = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10)); // Espaçamento flexível
+        painelCampoJogador = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         painelCampoJogador.setBackground(new Color(34, 28, 24));
 
         painelCampoJogador.setTransferHandler(new TransferHandler("carta") {
@@ -96,7 +106,6 @@ public class Estrutura {
                             Carta carta = (Carta) data.getTransferData(new DataFlavor(Carta.class, "Carta"));
                             acessorio.removerCartaDaMao(carta);
 
-                            
                             painelMaoJogador.remove(source);
                             painelMaoJogador.revalidate();
                             painelMaoJogador.repaint();
@@ -124,14 +133,14 @@ public class Estrutura {
     }
 
     public void adicionarCartaAoCampoJogador(Carta carta) {
-        if (painelCampoJogador.getComponentCount() < 9) {  
-            MolduraCarta molduraCarta = new MolduraCarta(carta);
+        if (painelCampoJogador.getComponentCount() < 9) {
+            if (!cartasCampoJogador.containsKey(carta)) {
+                MolduraCarta molduraCarta = new MolduraCarta(carta);
+                molduraCarta.setPreferredSize(new Dimension(120, 160));
+                cartasCampoJogador.put(carta, molduraCarta);  // Salva a moldura da carta
+            }
 
-            
-            molduraCarta.setPreferredSize(new Dimension(120, 160)); 
-
-            painelCampoJogador.add(molduraCarta);
-
+            painelCampoJogador.add(cartasCampoJogador.get(carta));
             painelCampoJogador.revalidate();
             painelCampoJogador.repaint();
         } else {
@@ -139,34 +148,43 @@ public class Estrutura {
         }
     }
 
+    public void adicionarCartaAoCampoInimigo(Carta carta) {
+        if (painelCampoInimigo.getComponentCount() < 9) {
+            if (!cartasCampoInimigo.containsKey(carta)) {
+                MolduraCarta molduraCarta = new MolduraCarta(carta);
+                molduraCarta.setPreferredSize(new Dimension(120, 160));
+                cartasCampoInimigo.put(carta, molduraCarta);  // Salva a moldura da carta
+            }
+
+            painelCampoInimigo.add(cartasCampoInimigo.get(carta));
+            painelCampoInimigo.revalidate();
+            painelCampoInimigo.repaint();
+        } else {
+            JOptionPane.showMessageDialog(null, "O inimigo não pode adicionar mais de 9 cartas no tabuleiro.");
+        }
+    }
+
     public void atualizarCampoJogador() {
+        painelCampoJogador.removeAll();
+        for (MolduraCarta molduraCarta : cartasCampoJogador.values()) {
+            painelCampoJogador.add(molduraCarta);
+        }
         painelCampoJogador.revalidate();
         painelCampoJogador.repaint();
     }
 
     public void atualizarCampoInimigo() {
+        painelCampoInimigo.removeAll();
+        for (MolduraCarta molduraCarta : cartasCampoInimigo.values()) {
+            painelCampoInimigo.add(molduraCarta);
+        }
         painelCampoInimigo.revalidate();
         painelCampoInimigo.repaint();
     }
 
-    public void iniciarBatalha(Carta atacante, Carta defensor) {
-        atacante.atacar(defensor);
+    // Remover o método iniciarBatalha para evitar problemas com a vida das cartas
 
-        
-        if (defensor.getVida() <= 0) {
-            removerCartaDoCampo(defensor, painelCampoInimigo);
-        }
-
-        
-        if (atacante.getVida() <= 0) {
-            removerCartaDoCampo(atacante, painelCampoJogador);
-        }
-
-        atualizarCampoJogador();
-        atualizarCampoInimigo();
-    }
-
-    private void removerCartaDoCampo(Carta carta, JPanel painel) {
+    protected void removerCartaDoCampo(Carta carta, JPanel painel) {
         Component[] componentes = painel.getComponents();
         for (Component componente : componentes) {
             if (componente instanceof MolduraCarta) {
