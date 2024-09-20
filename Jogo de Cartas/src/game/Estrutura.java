@@ -140,13 +140,18 @@ public class Estrutura {
                 cartasCampoJogador.put(carta, molduraCarta);  // Salva a moldura da carta
             }
 
-            painelCampoJogador.add(cartasCampoJogador.get(carta));
+            // Atualiza os atributos visuais da moldura com os valores atuais da carta
+            MolduraCarta moldura = cartasCampoJogador.get(carta);
+            moldura.atualizarAtributos(carta.getAtaque(), carta.getVida());
+
+            painelCampoJogador.add(moldura);
             painelCampoJogador.revalidate();
             painelCampoJogador.repaint();
         } else {
             JOptionPane.showMessageDialog(null, "Você não pode adicionar mais de 9 cartas no tabuleiro.");
         }
     }
+
 
     public void adicionarCartaAoCampoInimigo(Carta carta) {
         if (painelCampoInimigo.getComponentCount() < 9) {
