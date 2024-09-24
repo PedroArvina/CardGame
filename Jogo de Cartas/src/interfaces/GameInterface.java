@@ -1,13 +1,22 @@
 package interfaces;
 
 import game.Acessorio;
+import game.Combate;
 import game.Estrutura;
+import game.Inimigo;
+import game.InimigoIA;
 import game.Mana;
+import game.MolduraCarta;
+import cards.Carta;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDropEvent;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +25,9 @@ public class GameInterface extends JFrame {
     private JLabel[] manaCristais;
     private Mana mana;
     private Estrutura estrutura;
+    private Inimigo inimigo;
+    private InimigoIA inimigoIA;
+    private Timer manaUpdateTimer;
 
     public GameInterface(Acessorio acessorio) {
         setTitle("Crônicas de Arcana");
@@ -24,7 +36,11 @@ public class GameInterface extends JFrame {
         setLocationRelativeTo(null);
 
         mana = new Mana();
-        estrutura = new Estrutura(acessorio, mana); // Passando a mana para a estrutura
+        estrutura = new Estrutura(acessorio, mana); // Inicializa a estrutura antes do inimigo
+
+        
+        inimigo = new Inimigo(acessorio.getBolinhoJogador(), mana.getManaAtual());
+        inimigoIA = new InimigoIA(inimigo, estrutura);
 
         Color backgroundColor = new Color(34, 28, 24);
         Font retroFont = new Font("Serif", Font.BOLD, 18);
@@ -32,6 +48,7 @@ public class GameInterface extends JFrame {
         setLayout(new BorderLayout());
         getContentPane().setBackground(backgroundColor);
 
+        
         JPanel topo = new JPanel();
         topo.setLayout(new FlowLayout(FlowLayout.LEFT));
         topo.setBackground(backgroundColor);
@@ -54,6 +71,41 @@ public class GameInterface extends JFrame {
         campoBatalha.add(estrutura.getPainelCampoInimigo());
         campoBatalha.add(estrutura.getPainelCampoJogador());
 
+        
+        estrutura.getPainelCampoInimigo().setDropTarget(new DropTarget() {
+            public synchronized void drop(DropTargetDropEvent evt) {
+                try {
+                    Transferable t = evt.getTransferable();
+                    Carta cartaAtacante = (Carta) t.getTransferData(new DataFlavor(Carta.class, "Carta"));
+
+                    
+                    if (estrutura.getPainelCampoInimigo().getComponentCount() > 0) {
+                        MolduraCarta molduraInimigo = (MolduraCarta) estrutura.getPainelCampoInimigo().getComponent(0); 
+                        Carta cartaInimigo = molduraInimigo.getCarta();
+
+                        
+                        Combate combate = new Combate();
+                        combate.realizarCombate(cartaAtacante, cartaInimigo, true);
+
+                       
+                        molduraInimigo.atualizarAtributos(cartaInimigo.getAtaque(), cartaInimigo.getVida());
+
+                        
+                        List<String> log = combate.getLogCombate();
+                        for (String evento : log) {
+                            System.out.println(evento);
+                        }
+                    }
+
+                    evt.dropComplete(true);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    evt.dropComplete(false);
+                }
+            }
+        });
+
+        
         JPanel painelInferior = new JPanel(new BorderLayout());
         painelInferior.setBackground(backgroundColor);
         painelInferior.add(estrutura.getPainelMaoJogador(), BorderLayout.CENTER);
@@ -107,30 +159,49 @@ public class GameInterface extends JFrame {
 
         estrutura.atualizarMaoJogador();
 
-        
-        Timer timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                atualizarMana();
-            }
-        });
-        timer.start();
-
         btnEndTurn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mana.aumentarMana();
-                atualizarMana();
-                estrutura.atualizarMaoJogador();
-                executarJogadaVilao();
+                inimigo.aumentarMana(1);
 
                 
+                for (Component c : estrutura.getPainelCampoJogador().getComponents()) {
+                    if (c instanceof MolduraCarta) {
+                        ((MolduraCarta) c).resetarAtaque();
+                    }
+                }
+
+                atualizarMana();
                 estrutura.atualizarMaoJogador();
+                executarJogadaVilao(); 
             }
         });
 
+       
+        iniciarManaTimer();
 
         setVisible(true);
+    }
+
+    private void iniciarManaTimer() {
+        manaUpdateTimer = new Timer(1000, new ActionListener() { 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                atualizarMana();
+            }
+        });
+        manaUpdateTimer.start();  
+    }
+
+    public void executarJogadaVilao() {
+        inimigoIA.jogarTurno();
+        atualizarCampoInimigo();
+    }
+
+    public void atualizarCampoInimigo() {
+        estrutura.getPainelCampoInimigo().revalidate();
+        estrutura.getPainelCampoInimigo().repaint();
     }
 
     public void atualizarMana() {
@@ -141,13 +212,8 @@ public class GameInterface extends JFrame {
         }
     }
 
-    public void executarJogadaVilao() {
-        
-    }
-
     public static void main(String[] args) {
         List<Integer> cartasSelecionadas = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-
         Acessorio acessorio = new Acessorio(cartasSelecionadas);
         new GameInterface(acessorio);
     }
