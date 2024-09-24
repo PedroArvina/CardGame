@@ -1,88 +1,61 @@
 package game;
 
+
 import cards.Carta;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Inimigo {
-
-    private String nome;
-    private int vida;
+    private List<Carta> mao;
+    private List<Carta> deck;
     private int mana;
-    private List<Carta> mao; 
-    private List<Carta> tabuleiro; 
 
-    public Inimigo(String nome, int vidaInicial, int manaInicial) {
-        this.nome = nome;
-        this.vida = vidaInicial;
-        this.mana = manaInicial;
+    public Inimigo(List<Carta> deckInicial, int manaInicial) {
+        this.deck = new ArrayList<>(deckInicial);
+        Collections.shuffle(this.deck);  // Embaralha o deck do inimigo
         this.mao = new ArrayList<>();
-        this.tabuleiro = new ArrayList<>();
-    }
+        this.mana = manaInicial;
 
-    
-    public String getNome() {
-        return nome;
-    }
-
-    public int getVida() {
-        return vida;
-    }
-
-    public void setVida(int vida) {
-        this.vida = vida;
-    }
-
-    public int getMana() {
-        return mana;
-    }
-
-    public void setMana(int mana) {
-        this.mana = mana;
+        // O inimigo começa com 5 cartas na mão, assim como o jogador
+        for (int i = 0; i < 8; i++) {
+            puxarCarta();
+        }
     }
 
     public List<Carta> getMao() {
         return mao;
     }
 
-    public void adicionarCartaMao(Carta carta) {
-        this.mao.add(carta);
-    }
-
-    public void removerCartaMao(Carta carta) {
-        this.mao.remove(carta);
-    }
-
-    public List<Carta> getTabuleiro() {
-        return tabuleiro;
-    }
-
-    public void adicionarCartaTabuleiro(Carta carta) {
-        this.tabuleiro.add(carta);
-    }
-
-    public void removerCartaTabuleiro(Carta carta) {
-        this.tabuleiro.remove(carta);
-    }
-
-    
-    public void receberDano(int dano) {
-        this.vida -= dano;
-        if (this.vida < 0) {
-            this.vida = 0;
+    public void puxarCarta() {
+        if (!deck.isEmpty() && mao.size() < 5) {  // Garante que o jogador tenha até 5 cartas na mão
+            Carta novaCarta = deck.remove(0);  // Remove a carta do topo do deck
+            mao.add(novaCarta);  // Adiciona a carta à mão
+            System.out.println("Inimigo puxou uma nova carta: " + novaCarta.getNome());  // Mostra a carta puxada
+        } else if (deck.isEmpty()) {
+            System.out.println("O deck do inimigo está vazio, não há mais cartas para puxar.");
         }
-        System.out.println(nome + " recebeu " + dano + " de dano. Vida restante: " + this.vida);
     }
 
-    
-    public void curar(int quantidade) {
-        this.vida += quantidade;
-        System.out.println(nome + " foi curado em " + quantidade + ". Vida atual: " + this.vida);
+
+
+    public void aumentarMana(int quantidade) {
+        this.mana += quantidade;
     }
 
-    
-    public void realizarAcoes() {
-        
-        System.out.println(nome + " está realizando suas ações automáticas.");
+    public int getMana() {
+        return mana;
+    }
+
+    public void reduzirMana(int quantidade) {
+        this.mana -= quantidade;
+    }
+
+    public List<Carta> getDeck() {
+        return deck;
+    }
+
+    public void removerCartaDaMao(Carta carta) {
+        mao.remove(carta);  // Remove a carta jogada da mão
     }
 }
