@@ -17,7 +17,7 @@ public class Acessorio {
         this.maoJogador = new ArrayList<>();
         this.bolinhoJogador = new ArrayList<>();
 
-        
+        // Definindo as cartas com base nos IDs selecionados
         DefinicaoCartaCriatura definicaoCriatura = new DefinicaoCartaCriatura();
         DefinicaoCartaEncantamento definicaoEncantamento = new DefinicaoCartaEncantamento();
         DefinicaoCartaFeitico definicaoFeitico = new DefinicaoCartaFeitico();
@@ -37,7 +37,7 @@ public class Acessorio {
             }
         }
 
-        
+        // Puxando as primeiras 5 cartas
         for (int i = 0; i < 5; i++) {
             puxarCarta();
         }
@@ -48,7 +48,7 @@ public class Acessorio {
     }
 
     public void puxarCarta() {
-        if (!bolinhoJogador.isEmpty() && maoJogador.size() < 6) {
+        if (!bolinhoJogador.isEmpty() && maoJogador.size() < 5) {  // Garante que o jogador tenha até 5 cartas na mão
             maoJogador.add(bolinhoJogador.remove(0));
         }
     }
@@ -59,6 +59,12 @@ public class Acessorio {
 
     public void removerCartaDaMao(Carta carta) {
         maoJogador.remove(carta);
-        puxarCarta();
+        puxarCarta();  // Reabastece a mão imediatamente quando uma carta é removida
+    }
+
+    public void reabastecerMao() {
+        while (maoJogador.size() < 5) {
+            puxarCarta();  // Reabastece a mão até que tenha 5 cartas
+        }
     }
 }
