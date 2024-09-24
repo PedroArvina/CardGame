@@ -25,7 +25,7 @@ public class Estrutura {
     private Inimigo inimigo;
     private InimigoIA inimigoIA; 
 
-    // Mapas para armazenar as cartas no campo do jogador e do inimigo
+    
     private Map<Carta, MolduraCarta> cartasCampoJogador;
     private Map<Carta, MolduraCarta> cartasCampoInimigo;
 
@@ -33,7 +33,7 @@ public class Estrutura {
         this.acessorio = acessorio;
         this.mana = mana;
 
-        // Inicialização dos mapas de cartas no campo
+       
         cartasCampoJogador = new HashMap<>();
         cartasCampoInimigo = new HashMap<>();
 
@@ -66,7 +66,7 @@ public class Estrutura {
             
             public void adicionarCartaAoCampoInimigo(Carta carta) {
                 if (painelCampoInimigo.getComponentCount() < 9) {
-                    // Cria uma nova instância da carta para garantir que seja independente
+                    
                     Carta novaCarta;
                     if (carta instanceof Criatura) {
                         Criatura criatura = (Criatura) carta;
@@ -100,7 +100,7 @@ public class Estrutura {
                             encantamento.getImagem()
                         );
                     } else {
-                        novaCarta = null; // Carta de tipo desconhecido
+                        novaCarta = null; 
                     }
 
                     // Se a nova carta foi corretamente criada
@@ -136,9 +136,9 @@ public class Estrutura {
 
     // Criação correta do painelCampoInimigo
     private void criarPainelCampoInimigo() {
-        painelCampoInimigo = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10)); // Use FlowLayout para consistência
+        painelCampoInimigo = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10)); 
         painelCampoInimigo.setBackground(new Color(34, 28, 24));
-        painelCampoInimigo.setPreferredSize(new Dimension(800, 200)); // Ajuste o tamanho do painel do inimigo
+        painelCampoInimigo.setPreferredSize(new Dimension(800, 200)); 
     }
 
     public void atualizarMaoJogador() {
@@ -148,12 +148,12 @@ public class Estrutura {
         for (Carta carta : cartasMao) {
             // Cria uma nova instância de Criatura para garantir que as cartas sejam independentes
             MolduraCarta molduraCarta = new MolduraCarta(new Criatura(
-                carta.getNome(),        // Nome da carta
-                carta.getMana(),        // Mana da carta
-                carta.getDescricao(),   // Descrição da carta
-                carta.getAtaque(),      // Ataque da carta
-                carta.getVida(),        // Vida da carta
-                carta.getImagem()       // Imagem da carta
+                carta.getNome(),       
+                carta.getMana(),        
+                carta.getDescricao(),   
+                carta.getAtaque(),     
+                carta.getVida(),        
+                carta.getImagem()      
             ));
 
             molduraCarta.setTransferHandler(new TransferHandler("carta") {
@@ -204,7 +204,7 @@ public class Estrutura {
 
     public void adicionarCartaAoCampoJogador(Carta carta) {
         if (painelCampoJogador.getComponentCount() < 9) {
-            // Cria uma nova instância da carta para garantir que seja independente
+            
             Carta novaCarta;
             if (carta instanceof Criatura) {
                 Criatura criatura = (Criatura) carta;
@@ -238,15 +238,15 @@ public class Estrutura {
                     encantamento.getImagem()
                 );
             } else {
-                novaCarta = null; // Carta de tipo desconhecido
+                novaCarta = null; 
             }
 
             if (novaCarta != null) {
-                // Cria a moldura para essa nova carta
+                
                 MolduraCarta molduraCarta = new MolduraCarta(novaCarta);
                 molduraCarta.setPreferredSize(new Dimension(120, 160));
 
-                // Adiciona a moldura da carta ao painel e ao mapa de cartas
+                
                 cartasCampoJogador.put(novaCarta, molduraCarta);  // Salva a nova instância da carta
                 painelCampoJogador.add(molduraCarta);
 
