@@ -1,6 +1,10 @@
 package game;
 
 import cards.Carta;
+import cards.Criatura;
+import cards.Encantamento;
+import cards.Feitico;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
@@ -18,8 +22,10 @@ public class Estrutura {
     private JPanel painelCampoInimigo;
     private Acessorio acessorio;
     private Mana mana;
+    private Inimigo inimigo;
+    private InimigoIA inimigoIA; 
 
-    // Mapas para armazenar as cartas no campo do jogador e do inimigo com seus estados preservados
+    // Mapas para armazenar as cartas no campo do jogador e do inimigo
     private Map<Carta, MolduraCarta> cartasCampoJogador;
     private Map<Carta, MolduraCarta> cartasCampoInimigo;
 
@@ -57,6 +63,58 @@ public class Estrutura {
                     return false;
                 }
             }
+            
+            public void adicionarCartaAoCampoInimigo(Carta carta) {
+                if (painelCampoInimigo.getComponentCount() < 9) {
+                    // Cria uma nova instância da carta para garantir que seja independente
+                    Carta novaCarta;
+                    if (carta instanceof Criatura) {
+                        Criatura criatura = (Criatura) carta;
+                        novaCarta = new Criatura(
+                            criatura.getNome(), 
+                            criatura.getMana(), 
+                            criatura.getDescricao(), 
+                            criatura.getAtaque(), 
+                            criatura.getVida(), 
+                            criatura.getImagem()
+                        );
+                    } else if (carta instanceof Feitico) {
+                        Feitico feitico = (Feitico) carta;
+                        novaCarta = new Feitico(
+                            feitico.getNome(), 
+                            feitico.getMana(), 
+                            feitico.getDescricao(), 
+                            feitico.getEfeito(), 
+                            feitico.getVidaAdicionada(), 
+                            feitico.getAtaqueAdicionado(), 
+                            feitico.getImagem()
+                        );
+                    } else if (carta instanceof Encantamento) {
+                        Encantamento encantamento = (Encantamento) carta;
+                        novaCarta = new Encantamento(
+                            encantamento.getNome(), 
+                            encantamento.getMana(), 
+                            encantamento.getDescricao(), 
+                            encantamento.getAtaque(), 
+                            encantamento.getVida(), 
+                            encantamento.getImagem()
+                        );
+                    } else {
+                        novaCarta = null; // Carta de tipo desconhecido
+                    }
+
+                    // Se a nova carta foi corretamente criada
+                    if (novaCarta != null) {
+                        MolduraCarta molduraCarta = new MolduraCarta(novaCarta);
+                        molduraCarta.setPreferredSize(new Dimension(120, 160));
+                        painelCampoInimigo.add(molduraCarta);
+                        painelCampoInimigo.revalidate();
+                        painelCampoInimigo.repaint();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "O inimigo não pode adicionar mais de 9 cartas no tabuleiro.");
+                }
+            }
 
             @Override
             public boolean importData(TransferHandler.TransferSupport support) {
@@ -76,9 +134,11 @@ public class Estrutura {
         });
     }
 
+    // Criação correta do painelCampoInimigo
     private void criarPainelCampoInimigo() {
-        painelCampoInimigo = new JPanel(new GridLayout(1, 7, 10, 0));
+        painelCampoInimigo = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10)); // Use FlowLayout para consistência
         painelCampoInimigo.setBackground(new Color(34, 28, 24));
+        painelCampoInimigo.setPreferredSize(new Dimension(800, 200)); // Ajuste o tamanho do painel do inimigo
     }
 
     public void atualizarMaoJogador() {
@@ -86,7 +146,15 @@ public class Estrutura {
 
         List<Carta> cartasMao = acessorio.getMaoJogador();
         for (Carta carta : cartasMao) {
-            MolduraCarta molduraCarta = new MolduraCarta(carta);
+            // Cria uma nova instância de Criatura para garantir que as cartas sejam independentes
+            MolduraCarta molduraCarta = new MolduraCarta(new Criatura(
+                carta.getNome(),        // Nome da carta
+                carta.getMana(),        // Mana da carta
+                carta.getDescricao(),   // Descrição da carta
+                carta.getAtaque(),      // Ataque da carta
+                carta.getVida(),        // Vida da carta
+                carta.getImagem()       // Imagem da carta
+            ));
 
             molduraCarta.setTransferHandler(new TransferHandler("carta") {
                 @Override
@@ -132,36 +200,87 @@ public class Estrutura {
         painelMaoJogador.repaint();
     }
 
+
+
     public void adicionarCartaAoCampoJogador(Carta carta) {
         if (painelCampoJogador.getComponentCount() < 9) {
-            if (!cartasCampoJogador.containsKey(carta)) {
-                MolduraCarta molduraCarta = new MolduraCarta(carta);
-                molduraCarta.setPreferredSize(new Dimension(120, 160));
-                cartasCampoJogador.put(carta, molduraCarta);  // Salva a moldura da carta
+            // Cria uma nova instância da carta para garantir que seja independente
+            Carta novaCarta;
+            if (carta instanceof Criatura) {
+                Criatura criatura = (Criatura) carta;
+                novaCarta = new Criatura(
+                    criatura.getNome(), 
+                    criatura.getMana(), 
+                    criatura.getDescricao(), 
+                    criatura.getAtaque(), 
+                    criatura.getVida(), 
+                    criatura.getImagem()
+                );
+            } else if (carta instanceof Feitico) {
+                Feitico feitico = (Feitico) carta;
+                novaCarta = new Feitico(
+                    feitico.getNome(), 
+                    feitico.getMana(), 
+                    feitico.getDescricao(), 
+                    feitico.getEfeito(), 
+                    feitico.getVidaAdicionada(), 
+                    feitico.getAtaqueAdicionado(), 
+                    feitico.getImagem()
+                );
+            } else if (carta instanceof Encantamento) {
+                Encantamento encantamento = (Encantamento) carta;
+                novaCarta = new Encantamento(
+                    encantamento.getNome(), 
+                    encantamento.getMana(), 
+                    encantamento.getDescricao(), 
+                    encantamento.getAtaque(), 
+                    encantamento.getVida(), 
+                    encantamento.getImagem()
+                );
+            } else {
+                novaCarta = null; // Carta de tipo desconhecido
             }
 
-            // Atualiza os atributos visuais da moldura com os valores atuais da carta
-            MolduraCarta moldura = cartasCampoJogador.get(carta);
-            moldura.atualizarAtributos(carta.getAtaque(), carta.getVida());
+            if (novaCarta != null) {
+                // Cria a moldura para essa nova carta
+                MolduraCarta molduraCarta = new MolduraCarta(novaCarta);
+                molduraCarta.setPreferredSize(new Dimension(120, 160));
 
-            painelCampoJogador.add(moldura);
-            painelCampoJogador.revalidate();
-            painelCampoJogador.repaint();
+                // Adiciona a moldura da carta ao painel e ao mapa de cartas
+                cartasCampoJogador.put(novaCarta, molduraCarta);  // Salva a nova instância da carta
+                painelCampoJogador.add(molduraCarta);
+
+                painelCampoJogador.revalidate();
+                painelCampoJogador.repaint();
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Você não pode adicionar mais de 9 cartas no tabuleiro.");
         }
     }
 
 
+    
+    public void removerCartaDoCampo(Carta carta, JPanel painel) {
+        Component[] componentes = painel.getComponents();
+        for (Component componente : componentes) {
+            if (componente instanceof MolduraCarta) {
+                MolduraCarta molduraCarta = (MolduraCarta) componente;
+                if (molduraCarta.getCarta() == carta) {
+                    painel.remove(molduraCarta);
+                    break;
+                }
+            }
+        }
+        painel.revalidate();
+        painel.repaint();
+    }
+
+
     public void adicionarCartaAoCampoInimigo(Carta carta) {
         if (painelCampoInimigo.getComponentCount() < 9) {
-            if (!cartasCampoInimigo.containsKey(carta)) {
-                MolduraCarta molduraCarta = new MolduraCarta(carta);
-                molduraCarta.setPreferredSize(new Dimension(120, 160));
-                cartasCampoInimigo.put(carta, molduraCarta);  // Salva a moldura da carta
-            }
-
-            painelCampoInimigo.add(cartasCampoInimigo.get(carta));
+            MolduraCarta molduraCarta = new MolduraCarta(carta);
+            molduraCarta.setPreferredSize(new Dimension(120, 160));
+            painelCampoInimigo.add(molduraCarta);
             painelCampoInimigo.revalidate();
             painelCampoInimigo.repaint();
         } else {
@@ -185,23 +304,6 @@ public class Estrutura {
         }
         painelCampoInimigo.revalidate();
         painelCampoInimigo.repaint();
-    }
-
-    // Remover o método iniciarBatalha para evitar problemas com a vida das cartas
-
-    protected void removerCartaDoCampo(Carta carta, JPanel painel) {
-        Component[] componentes = painel.getComponents();
-        for (Component componente : componentes) {
-            if (componente instanceof MolduraCarta) {
-                MolduraCarta molduraCarta = (MolduraCarta) componente;
-                if (molduraCarta.getCarta() == carta) {
-                    painel.remove(molduraCarta);
-                    break;
-                }
-            }
-        }
-        painel.revalidate();
-        painel.repaint();
     }
 
     public JPanel getPainelMaoJogador() {
