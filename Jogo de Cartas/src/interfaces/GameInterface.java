@@ -2,219 +2,224 @@ package interfaces;
 
 import game.Acessorio;
 import game.Combate;
+import game.ControleTurnos;
 import game.Estrutura;
-import game.Inimigo;
-import game.InimigoIA;
 import game.Mana;
 import game.MolduraCarta;
 import cards.Carta;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDropEvent;
-import java.util.Arrays;
-import java.util.List;
 
 public class GameInterface extends JFrame {
 
-    private JLabel[] manaCristais;
-    private Mana mana;
+    private JLabel[][] manaCristais; // Um array de manaCristais para cada jogador
+    private Mana manaJogador1;
+    private Mana manaJogador2;
     private Estrutura estrutura;
-    private Inimigo inimigo;
-    private InimigoIA inimigoIA;
     private Timer manaUpdateTimer;
+    private JLabel lblTurno;
+    private JButton btnEndTurn;
+    private ControleTurnos controleTurnos;
 
-    public GameInterface(Acessorio acessorio) {
+    private JPanel painelMaoJogador1;
+    private JPanel painelMaoJogador2;
+
+    public GameInterface(Acessorio acessorioJogador1, Acessorio acessorioJogador2) {
         setTitle("Crônicas de Arcana");
         setSize(1280, 720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        mana = new Mana();
-        estrutura = new Estrutura(acessorio, mana); // Inicializa a estrutura antes do inimigo
+        // Inicialização das manas e controle de turnos
+        manaJogador1 = new Mana();
+        manaJogador2 = new Mana();
+        controleTurnos = new ControleTurnos();
+        estrutura = new Estrutura(acessorioJogador1, acessorioJogador2, manaJogador1, manaJogador2, controleTurnos);
 
-        
-        inimigo = new Inimigo(acessorio.getBolinhoJogador(), mana.getManaAtual());
-        inimigoIA = new InimigoIA(inimigo, estrutura);
+        painelMaoJogador1 = estrutura.getPainelMaoJogador1();
+        painelMaoJogador2 = estrutura.getPainelMaoJogador2();
 
+        configurarInterfaceVisual();
+
+        estrutura.atualizarMaoJogador1();
+        estrutura.atualizarMaoJogador2();
+
+        configurarBotaoFimDeTurno();
+
+        iniciarManaTimer();
+        abrirJanelaCemiterio();
+
+        atualizarTurnoVisual();
+
+        setVisible(true);
+    }
+
+    private void atualizarTurnoVisual() {
+        lblTurno.setText(controleTurnos.isTurnoDoJogador1() ? "Turno: Jogador 1" : "Turno: Jogador 2");
+        lblTurno.setForeground(controleTurnos.isTurnoDoJogador1() ? Color.YELLOW : Color.RED);
+
+        // Atualizar o texto do botão para refletir o turno
+        btnEndTurn.setText(controleTurnos.isTurnoDoJogador1() ? "Turno Jogador 1" : "Turno Jogador 2");
+    }
+
+    private void configurarInterfaceVisual() {
         Color backgroundColor = new Color(34, 28, 24);
         Font retroFont = new Font("Serif", Font.BOLD, 18);
 
         setLayout(new BorderLayout());
         getContentPane().setBackground(backgroundColor);
 
-        
-        JPanel topo = new JPanel();
-        topo.setLayout(new FlowLayout(FlowLayout.LEFT));
-        topo.setBackground(backgroundColor);
+        lblTurno = new JLabel("Turno: Jogador 1");
+        lblTurno.setFont(new Font("Serif", Font.BOLD, 20));
+        lblTurno.setForeground(Color.YELLOW);
 
-        ImageIcon inimigoIcone = new ImageIcon(new ImageIcon("src/fotos/mal.png").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
-        JLabel inimigoImagem = new JLabel(inimigoIcone);
-        inimigoImagem.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3));
+        JPanel painelSuperiorInimigo = new JPanel(new BorderLayout());
+        painelSuperiorInimigo.setBackground(backgroundColor);
 
-        JLabel inimigoVida = new JLabel("Vida: 30");
-        inimigoVida.setFont(retroFont);
-        inimigoVida.setForeground(Color.WHITE);
+        JPanel infoJogador2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        infoJogador2.setBackground(backgroundColor);
 
-        topo.add(inimigoImagem);
-        topo.add(inimigoVida);
+        ImageIcon jogador2Icone = new ImageIcon(new ImageIcon("src/fotos/mal.png").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+        JLabel jogador2Imagem = new JLabel(jogador2Icone);
+        jogador2Imagem.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3));
 
-        JPanel campoBatalha = new JPanel();
-        campoBatalha.setLayout(new GridLayout(2, 1));
+        JLabel jogador2Vida = new JLabel("Vida: 30");
+        jogador2Vida.setFont(retroFont);
+        jogador2Vida.setForeground(Color.WHITE);
+
+        infoJogador2.add(jogador2Imagem);
+        infoJogador2.add(jogador2Vida);
+
+        painelMaoJogador2 = estrutura.getPainelMaoJogador2();
+        painelSuperiorInimigo.add(infoJogador2, BorderLayout.WEST);
+        painelSuperiorInimigo.add(painelMaoJogador2, BorderLayout.CENTER);
+
+        JPanel campoBatalha = new JPanel(new GridLayout(2, 1));
         campoBatalha.setBackground(backgroundColor);
+        campoBatalha.setPreferredSize(new Dimension(800, 280));
+        campoBatalha.add(estrutura.getPainelCampoJogador2());
+        campoBatalha.add(estrutura.getPainelCampoJogador1());
 
-        campoBatalha.add(estrutura.getPainelCampoInimigo());
-        campoBatalha.add(estrutura.getPainelCampoJogador());
-
-        
-        estrutura.getPainelCampoInimigo().setDropTarget(new DropTarget() {
-            public synchronized void drop(DropTargetDropEvent evt) {
-                try {
-                    Transferable t = evt.getTransferable();
-                    Carta cartaAtacante = (Carta) t.getTransferData(new DataFlavor(Carta.class, "Carta"));
-
-                    
-                    if (estrutura.getPainelCampoInimigo().getComponentCount() > 0) {
-                        MolduraCarta molduraInimigo = (MolduraCarta) estrutura.getPainelCampoInimigo().getComponent(0); 
-                        Carta cartaInimigo = molduraInimigo.getCarta();
-
-                        
-                        Combate combate = new Combate();
-                        combate.realizarCombate(cartaAtacante, cartaInimigo, true);
-
-                       
-                        molduraInimigo.atualizarAtributos(cartaInimigo.getAtaque(), cartaInimigo.getVida());
-
-                        
-                        List<String> log = combate.getLogCombate();
-                        for (String evento : log) {
-                            System.out.println(evento);
-                        }
-                    }
-
-                    evt.dropComplete(true);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    evt.dropComplete(false);
-                }
-            }
-        });
-
-        
         JPanel painelInferior = new JPanel(new BorderLayout());
         painelInferior.setBackground(backgroundColor);
-        painelInferior.add(estrutura.getPainelMaoJogador(), BorderLayout.CENTER);
+        painelInferior.add(estrutura.getPainelMaoJogador1(), BorderLayout.CENTER);
 
-        JPanel base = new JPanel();
-        base.setLayout(new FlowLayout(FlowLayout.LEFT));
-        base.setBackground(backgroundColor);
+        JPanel infoJogador1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        infoJogador1.setBackground(backgroundColor);
 
-        ImageIcon jogadorIcone = new ImageIcon(new ImageIcon("src/fotos/Bom.png").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
-        JLabel jogadorImagem = new JLabel(jogadorIcone);
-        jogadorImagem.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3));
+        ImageIcon jogador1Icone = new ImageIcon(new ImageIcon("src/fotos/Bom.png").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+        JLabel jogador1Imagem = new JLabel(jogador1Icone);
+        jogador1Imagem.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3));
 
-        JLabel jogadorVida = new JLabel("Vida: 30");
-        jogadorVida.setFont(retroFont);
-        jogadorVida.setForeground(Color.WHITE);
+        JLabel jogador1Vida = new JLabel("Vida: 30");
+        jogador1Vida.setFont(retroFont);
+        jogador1Vida.setForeground(Color.WHITE);
 
-        base.add(jogadorImagem);
-        base.add(jogadorVida);
+        infoJogador1.add(jogador1Imagem);
+        infoJogador1.add(jogador1Vida);
 
-        JButton btnEndTurn = new JButton("Finalizar Turno");
-        btnEndTurn.setFont(retroFont);
+        painelInferior.add(infoJogador1, BorderLayout.WEST);
+
+        btnEndTurn = new JButton("Turno Jogador 1");
+        btnEndTurn.setFont(new Font("Serif", Font.BOLD, 12));
         btnEndTurn.setBackground(new Color(102, 51, 0));
         btnEndTurn.setForeground(Color.WHITE);
-        btnEndTurn.setFocusPainted(false);
-        btnEndTurn.setBorderPainted(false);
-
-        painelInferior.add(base, BorderLayout.WEST);
         painelInferior.add(btnEndTurn, BorderLayout.EAST);
 
-        JPanel painelMana = new JPanel();
-        painelMana.setLayout(new GridLayout(10, 1));
-        painelMana.setBackground(backgroundColor);
+        manaCristais = new JLabel[2][10]; // Array 2D para dois jogadores
+        JPanel painelManaJogador1 = new JPanel(new BorderLayout());
+        JPanel painelManaJogador2 = new JPanel(new BorderLayout());
+        painelManaJogador1.setBackground(backgroundColor);
+        painelManaJogador2.setBackground(backgroundColor);
 
-        manaCristais = new JLabel[10];
+        JLabel labelAmigo = new JLabel("A", SwingConstants.CENTER);
+        labelAmigo.setFont(new Font("Serif", Font.BOLD, 16));
+        labelAmigo.setForeground(Color.WHITE);
+
+        JLabel labelInimigo = new JLabel("I", SwingConstants.CENTER);
+        labelInimigo.setFont(new Font("Serif", Font.BOLD, 16));
+        labelInimigo.setForeground(Color.WHITE);
+
+        JPanel painelCristaisAmigo = new JPanel(new GridLayout(10, 1));
+        painelCristaisAmigo.setBackground(backgroundColor);
+        JPanel painelCristaisInimigo = new JPanel(new GridLayout(10, 1));
+        painelCristaisInimigo.setBackground(backgroundColor);
+
         for (int i = 0; i < 10; i++) {
-            manaCristais[i] = new JLabel();
-            manaCristais[i].setPreferredSize(new Dimension(40, 40));
-            manaCristais[i].setHorizontalAlignment(JLabel.CENTER);
-            manaCristais[i].setOpaque(true);
-            manaCristais[i].setBackground(Color.BLUE);
-            manaCristais[i].setForeground(Color.WHITE);
-            manaCristais[i].setFont(new Font("Serif", Font.BOLD, 18));
-            manaCristais[i].setVisible(false);
-            painelMana.add(manaCristais[i]);
+            manaCristais[0][i] = criarCristalMana();
+            painelCristaisAmigo.add(manaCristais[0][i]);
+
+            manaCristais[1][i] = criarCristalMana();
+            painelCristaisInimigo.add(manaCristais[1][i]);
         }
 
-        add(topo, BorderLayout.NORTH);
+        painelManaJogador1.add(labelAmigo, BorderLayout.NORTH);
+        painelManaJogador1.add(painelCristaisAmigo, BorderLayout.CENTER);
+
+        painelManaJogador2.add(labelInimigo, BorderLayout.NORTH);
+        painelManaJogador2.add(painelCristaisInimigo, BorderLayout.CENTER);
+
+        JPanel painelManaContainer = new JPanel(new BorderLayout());
+        painelManaContainer.add(painelManaJogador1, BorderLayout.WEST);
+        painelManaContainer.add(painelManaJogador2, BorderLayout.EAST);
+
+        add(painelSuperiorInimigo, BorderLayout.NORTH);
         add(campoBatalha, BorderLayout.CENTER);
         add(painelInferior, BorderLayout.SOUTH);
-        add(painelMana, BorderLayout.WEST);
+        add(painelManaContainer, BorderLayout.WEST);
+    }
 
-        estrutura.atualizarMaoJogador();
+    private JLabel criarCristalMana() {
+        JLabel manaCristal = new JLabel();
+        manaCristal.setPreferredSize(new Dimension(40, 40));
+        manaCristal.setHorizontalAlignment(JLabel.CENTER);
+        manaCristal.setOpaque(true);
+        manaCristal.setBackground(Color.BLUE);
+        manaCristal.setForeground(Color.WHITE);
+        manaCristal.setFont(new Font("Serif", Font.BOLD, 18));
+        manaCristal.setVisible(false);
+        return manaCristal;
+    }
 
-        btnEndTurn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mana.aumentarMana();
-                inimigo.aumentarMana(1);
+    private void configurarBotaoFimDeTurno() {
+        btnEndTurn.addActionListener(e -> finalizarTurno());
+    }
 
-                
-                for (Component c : estrutura.getPainelCampoJogador().getComponents()) {
-                    if (c instanceof MolduraCarta) {
-                        ((MolduraCarta) c).resetarAtaque();
-                    }
-                }
+    private void finalizarTurno() {
+        if (controleTurnos.isTurnoDoJogador1()) {
+            manaJogador1.aumentarMana();
+            estrutura.atualizarMaoJogador1();
+        } else {
+            manaJogador2.aumentarMana();
+            estrutura.atualizarMaoJogador2();
+        }
 
-                atualizarMana();
-                estrutura.atualizarMaoJogador();
-                executarJogadaVilao(); 
-            }
-        });
-
-       
-        iniciarManaTimer();
-
-        setVisible(true);
+        controleTurnos.finalizarTurno();
+        atualizarTurnoVisual();
+        atualizarMana();
     }
 
     private void iniciarManaTimer() {
-        manaUpdateTimer = new Timer(1000, new ActionListener() { 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                atualizarMana();
-            }
-        });
-        manaUpdateTimer.start();  
-    }
-
-    public void executarJogadaVilao() {
-        inimigoIA.jogarTurno();
-        atualizarCampoInimigo();
-    }
-
-    public void atualizarCampoInimigo() {
-        estrutura.getPainelCampoInimigo().revalidate();
-        estrutura.getPainelCampoInimigo().repaint();
+        manaUpdateTimer = new Timer(1000, e -> atualizarMana());
+        manaUpdateTimer.start();
     }
 
     public void atualizarMana() {
+        atualizarManaJogador(manaJogador1, 0);
+        atualizarManaJogador(manaJogador2, 1);
+    }
+
+    private void atualizarManaJogador(Mana mana, int jogadorIndex) {
         int manaAtual = mana.getManaAtual();
         for (int i = 0; i < 10; i++) {
-            manaCristais[i].setVisible(i < manaAtual);
-            manaCristais[i].setText(i < manaAtual ? String.valueOf(i + 1) : "");
+            manaCristais[jogadorIndex][i].setVisible(i < manaAtual);
+            manaCristais[jogadorIndex][i].setText(i < manaAtual ? String.valueOf(i + 1) : "");
         }
     }
 
-    public static void main(String[] args) {
-        List<Integer> cartasSelecionadas = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-        Acessorio acessorio = new Acessorio(cartasSelecionadas);
-        new GameInterface(acessorio);
+    private void abrirJanelaCemiterio() {
+        CemiterioWindow janelaCemiterio = new CemiterioWindow(estrutura);
+        janelaCemiterio.setVisible(true);
     }
 }
