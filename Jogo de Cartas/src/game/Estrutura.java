@@ -104,6 +104,19 @@ public class Estrutura {
                     Transferable transferable = evt.getTransferable();
                     Carta carta = (Carta) transferable.getTransferData(new DataFlavor(Carta.class, "Carta"));
 
+                    // Verificar se é o turno do jogador 1
+                    if (!controleTurnos.isTurnoDoJogador1()) {
+                        // Devolve a carta à mão do jogador 1, sem duplicar
+                        List<Carta> maoJogador1 = acessorioJogador1.getMaoJogador();
+                        if (!maoJogador1.contains(carta)) {
+                            maoJogador1.add(carta);
+                        }
+                        atualizarMaoJogador1();
+                        JOptionPane.showMessageDialog(null, "Não é o seu turno! A carta foi devolvida à sua mão.");
+                        evt.dropComplete(false); // Ação inválida
+                        return;
+                    }
+
                     // Adicionar a carta ao campo do jogador 1
                     adicionarCartaAoCampo(carta, true);
                     evt.dropComplete(true);
@@ -128,6 +141,19 @@ public class Estrutura {
                     Transferable transferable = evt.getTransferable();
                     Carta carta = (Carta) transferable.getTransferData(new DataFlavor(Carta.class, "Carta"));
 
+                    // Verificar se é o turno do jogador 2
+                    if (controleTurnos.isTurnoDoJogador1()) {
+                        // Devolve a carta à mão do jogador 2, sem duplicar
+                        List<Carta> maoJogador2 = acessorioJogador2.getMaoJogador();
+                        if (!maoJogador2.contains(carta)) {
+                            maoJogador2.add(carta);
+                        }
+                        atualizarMaoJogador2();
+                        JOptionPane.showMessageDialog(null, "Não é o seu turno! A carta foi devolvida à sua mão.");
+                        evt.dropComplete(false); // Ação inválida
+                        return;
+                    }
+
                     // Adicionar a carta ao campo do jogador 2
                     adicionarCartaAoCampo(carta, false);
                     evt.dropComplete(true);
@@ -139,21 +165,38 @@ public class Estrutura {
         });
     }
 
+
+
     public void atualizarMaoJogador1() {
         painelMaoJogador1.removeAll();
 
         List<Carta> cartasMao = acessorioJogador1.getMaoJogador();
+        boolean turnoDoJogador1 = controleTurnos.isTurnoDoJogador1(); // Verifica o turno
+
         for (Carta carta : cartasMao) {
             MolduraCarta molduraCarta = new MolduraCarta(carta, this, controleTurnos, true);
 
             molduraCarta.setTransferHandler(new TransferHandler("carta") {
                 @Override
                 public int getSourceActions(JComponent c) {
-                    return MOVE;
+                    // Permitir arrastar apenas no turno do jogador 1, e se a carta não estiver no tabuleiro
+                    boolean cartaNoTabuleiro = Estrutura.this.getMolduraCartaPorCarta(carta) != null;
+                    return (turnoDoJogador1 && !cartaNoTabuleiro) ? MOVE : NONE;
                 }
 
                 @Override
                 protected Transferable createTransferable(JComponent c) {
+                    if (!turnoDoJogador1) {
+                        JOptionPane.showMessageDialog(null, "Não é seu turno! Você não pode jogar esta carta.");
+                        return null; // Não permite arrastar no turno errado
+                    }
+
+                    boolean cartaNoTabuleiro = Estrutura.this.getMolduraCartaPorCarta(carta) != null;
+                    if (cartaNoTabuleiro) {
+                        JOptionPane.showMessageDialog(null, "Esta carta já está no tabuleiro.");
+                        return null; // Não permite mover se a carta já estiver no tabuleiro
+                    }
+
                     return new TransferableCarta(carta);
                 }
 
@@ -170,31 +213,40 @@ public class Estrutura {
 
                             boolean cartaNoTabuleiro = Estrutura.this.getMolduraCartaPorCarta(carta) != null;
 
-                            if (cartaNoTabuleiro && source.getParent() != null) {
-                                source.getParent().remove(source);
-                                source.getParent().revalidate();
-                                source.getParent().repaint();
+                            if (cartaNoTabuleiro) {
+                                System.out.println("A carta já está no tabuleiro e não pode ser movida novamente para ele.");
+                                return;
+                            }
+
+                            // Remove o componente da interface se for necessário
+                            Container parent = source.getParent();
+                            if (parent != null) {
+                                parent.remove(source);
+                                parent.revalidate();
+                                parent.repaint();
+                                System.out.println("Carta removida da mão com sucesso.");
                             } else {
-                                System.out.println("Aviso: Componente não tem um pai ou carta não está no tabuleiro.");
+                                System.out.println("Aviso: Componente não tem um pai.");
                             }
 
                         } catch (Exception e) {
                             e.printStackTrace();
+                            System.out.println("Erro ao realizar o movimento da carta.");
                         }
                     }
                 }
-
-
-
-
             });
 
             molduraCarta.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    JComponent comp = (JComponent) e.getSource();
-                    TransferHandler handler = comp.getTransferHandler();
-                    handler.exportAsDrag(comp, e, TransferHandler.MOVE);
+                    if (turnoDoJogador1) {
+                        JComponent comp = (JComponent) e.getSource();
+                        TransferHandler handler = comp.getTransferHandler();
+                        handler.exportAsDrag(comp, e, TransferHandler.MOVE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Não é seu turno! A carta não pode ser movida.");
+                    }
                 }
             });
 
@@ -209,17 +261,32 @@ public class Estrutura {
         painelMaoJogador2.removeAll();
 
         List<Carta> cartasMao = acessorioJogador2.getMaoJogador();
+        boolean turnoDoJogador2 = !controleTurnos.isTurnoDoJogador1(); // Verifica o turno
+
         for (Carta carta : cartasMao) {
             MolduraCarta molduraCarta = new MolduraCarta(carta, this, controleTurnos, false);
 
             molduraCarta.setTransferHandler(new TransferHandler("carta") {
                 @Override
                 public int getSourceActions(JComponent c) {
-                    return MOVE;
+                    // Permitir arrastar apenas no turno do jogador 2, e se a carta não estiver no tabuleiro
+                    boolean cartaNoTabuleiro = Estrutura.this.getMolduraCartaPorCarta(carta) != null;
+                    return (turnoDoJogador2 && !cartaNoTabuleiro) ? MOVE : NONE;
                 }
 
                 @Override
                 protected Transferable createTransferable(JComponent c) {
+                    if (!turnoDoJogador2) {
+                        JOptionPane.showMessageDialog(null, "Não é seu turno! Você não pode jogar esta carta.");
+                        return null; // Não permite arrastar no turno errado
+                    }
+
+                    boolean cartaNoTabuleiro = Estrutura.this.getMolduraCartaPorCarta(carta) != null;
+                    if (cartaNoTabuleiro) {
+                        JOptionPane.showMessageDialog(null, "Esta carta já está no tabuleiro.");
+                        return null; // Não permite mover se a carta já estiver no tabuleiro
+                    }
+
                     return new TransferableCarta(carta);
                 }
 
@@ -236,29 +303,40 @@ public class Estrutura {
 
                             boolean cartaNoTabuleiro = Estrutura.this.getMolduraCartaPorCarta(carta) != null;
 
-                            if (cartaNoTabuleiro && source.getParent() != null) { // Verificar se há pai
-                                source.getParent().remove(source);
-                                source.getParent().revalidate();
-                                source.getParent().repaint();
+                            if (cartaNoTabuleiro) {
+                                System.out.println("A carta já está no tabuleiro e não pode ser movida novamente para ele.");
+                                return;
+                            }
+
+                            // Remove o componente da interface se for necessário
+                            Container parent = source.getParent();
+                            if (parent != null) {
+                                parent.remove(source);
+                                parent.revalidate();
+                                parent.repaint();
+                                System.out.println("Carta removida da mão com sucesso.");
                             } else {
-                                System.out.println("Aviso: Componente não tem um pai ou carta não está no tabuleiro.");
+                                System.out.println("Aviso: Componente não tem um pai.");
                             }
 
                         } catch (Exception e) {
                             e.printStackTrace();
+                            System.out.println("Erro ao realizar o movimento da carta.");
                         }
                     }
                 }
-
-
             });
 
             molduraCarta.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    JComponent comp = (JComponent) e.getSource();
-                    TransferHandler handler = comp.getTransferHandler();
-                    handler.exportAsDrag(comp, e, TransferHandler.MOVE);
+                    if (turnoDoJogador2) {
+                        JComponent comp = (JComponent) e.getSource();
+                        TransferHandler handler = comp.getTransferHandler();
+                        handler.exportAsDrag(comp, e, TransferHandler.MOVE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Não é seu turno! A carta não pode ser movida.");
+                    }
                 }
             });
 
@@ -269,7 +347,13 @@ public class Estrutura {
         painelMaoJogador2.repaint();
     }
 
+
     public void adicionarCartaAoCampo(Carta carta, boolean isJogador1) {
+        if (isJogador1 != controleTurnos.isTurnoDoJogador1()) {
+            JOptionPane.showMessageDialog(null, "Não é seu turno para jogar esta carta.");
+            return; // Bloqueia se não for o turno do jogador correto
+        }
+
         JPanel painelCampo = isJogador1 ? painelCampoJogador1 : painelCampoJogador2;
         Mana manaAtual = isJogador1 ? manaJogador1 : manaJogador2;
 
@@ -290,17 +374,20 @@ public class Estrutura {
 
         if (isJogador1) {
             cartasCampoJogador1.put(carta, molduraCarta);
+            acessorioJogador1.getMaoJogador().remove(carta); // Remove da mão
+            atualizarMaoJogador1(); // Atualiza a mão visualmente
         } else {
             cartasCampoJogador2.put(carta, molduraCarta);
+            acessorioJogador2.getMaoJogador().remove(carta); // Remove da mão
+            atualizarMaoJogador2(); // Atualiza a mão visualmente
         }
 
         painelCampo.add(molduraCarta);
         painelCampo.revalidate();
         painelCampo.repaint();
-
-        // Ativar habilidade ao adicionar ao campo
-        habilidades.ativarHabilidade(carta);
     }
+
+
 
 
 
