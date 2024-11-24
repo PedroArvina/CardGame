@@ -137,7 +137,6 @@ public class MolduraCarta extends JPanel implements DragGestureListener, DragSou
     public void realizarAtaque() {
         this.jaAtacou = true;
     }
-
     private void realizarCombate(Carta cartaAtacante, Carta cartaAtacada) throws CartaInvalidaException {
         MolduraCarta molduraAtacante = estrutura.getMolduraCartaPorCarta(cartaAtacante);
         MolduraCarta molduraAtacada = estrutura.getMolduraCartaPorCarta(cartaAtacada);
@@ -149,6 +148,11 @@ public class MolduraCarta extends JPanel implements DragGestureListener, DragSou
         if (molduraAtacante.getParent() == estrutura.getPainelMaoJogador1() ||
                 molduraAtacada.getParent() == estrutura.getPainelMaoJogador1()) {
             throw new CartaInvalidaException("Movimento inválido: cartas na mão não podem atacar ou ser atacadas.");
+        }
+
+        // Verificar se a carta já atacou no turno
+        if (molduraAtacante.jaAtacouNoTurno()) {
+            throw new CartaInvalidaException("Esta carta já atacou neste turno!");
         }
 
         if (molduraAtacante.isDono() == molduraAtacada.isDono()) {
@@ -175,7 +179,11 @@ public class MolduraCarta extends JPanel implements DragGestureListener, DragSou
                 molduraAtacante.removerCartaDoCampo();
             });
         }
+
+        // Marcar a carta atacante como já tendo atacado
+        molduraAtacante.realizarAtaque();
     }
+
 
     public void atualizarAtributos(int ataque, int vida) {
         labelAtaque.setText(String.valueOf(ataque));
@@ -203,9 +211,15 @@ public class MolduraCarta extends JPanel implements DragGestureListener, DragSou
 
     @Override
     public void dragGestureRecognized(DragGestureEvent dge) {
+        if ((dono && !controleTurnos.isTurnoDoJogador1()) || (!dono && controleTurnos.isTurnoDoJogador1())) {
+            JOptionPane.showMessageDialog(null, "Não é seu turno para usar esta carta!");
+            return;
+        }
+
         Transferable transferable = new TransferableCarta(carta);
         dragSource.startDrag(dge, DragSource.DefaultMoveDrop, transferable, this);
     }
+
 
 
 
