@@ -1,0 +1,44 @@
+package game;
+
+public class ControleTurnos {
+    private boolean turnoDoJogador1;  // true para jogador 1, false para jogador 2
+    private Estrutura estrutura;
+
+    public ControleTurnos() {
+        this.turnoDoJogador1 = true;  // O jogador 1 começa o jogo
+    }
+
+    public boolean isTurnoDoJogador1() {
+        return turnoDoJogador1;
+    }
+
+    public void finalizarTurno() {
+        turnoDoJogador1 = !turnoDoJogador1;  // Alterna o turno entre jogador 1 e jogador 2
+        atualizarTurnoVisual();
+    }
+    public void resetarAtaquesDasCartas(Estrutura estrutura) {
+        for (MolduraCarta moldura : estrutura.getCartasNoCampo()) {
+            moldura.resetarAtaque();
+        }
+    }
+
+    
+
+    public void atualizarTurnoVisual() {
+        if (turnoDoJogador1) {
+            System.out.println("É o turno do Jogador 1");
+        } else {
+            System.out.println("É o turno do Jogador 2");
+        }
+        
+        // Atualiza o estado dos painéis e interações de acordo com o turno atual
+        if (estrutura != null) {
+            estrutura.atualizarEstadoPainelMaoJogador(turnoDoJogador1);
+        }
+    }
+
+    // Permite definir a estrutura após a inicialização do ControleTurnos
+    public void setEstrutura(Estrutura estrutura) {
+        this.estrutura = estrutura;
+    }
+}
