@@ -165,6 +165,27 @@ public class Estrutura {
         });
     }
 
+    
+    public List<MolduraCarta> getCartasNoCampo() {
+        List<MolduraCarta> cartasNoCampo = new ArrayList<>();
+        Component[] componentesCampo1 = painelCampoJogador1.getComponents();
+        Component[] componentesCampo2 = painelCampoJogador2.getComponents();
+
+        for (Component c : componentesCampo1) {
+            if (c instanceof MolduraCarta) {
+                cartasNoCampo.add((MolduraCarta) c);
+            }
+        }
+
+        for (Component c : componentesCampo2) {
+            if (c instanceof MolduraCarta) {
+                cartasNoCampo.add((MolduraCarta) c);
+            }
+        }
+
+        return cartasNoCampo;
+    }
+
 
 
     public void atualizarMaoJogador1() {
