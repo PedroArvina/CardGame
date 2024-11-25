@@ -415,6 +415,7 @@ public class Estrutura {
         painelCampo.add(molduraCarta);
         painelCampo.revalidate();
         painelCampo.repaint();
+        habilidades.ativarHabilidade(carta);
     }
 
 
