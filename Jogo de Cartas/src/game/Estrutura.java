@@ -90,6 +90,15 @@ public class Estrutura {
     public List<Carta> getCemiterio() {
         return cemiterio;
     }
+    
+    public Acessorio getAcessorioJogador1() {
+        return acessorioJogador1;
+    }
+
+    public Acessorio getAcessorioJogador2() {
+        return acessorioJogador2;
+    }
+
 
     private void criarPainelCampoJogador1() {
         painelCampoJogador1 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
