@@ -19,7 +19,11 @@ public class MolduraCarta extends JPanel implements DragGestureListener, DragSou
     private JLabel labelVida;
     private Timer timer;
     private Estrutura estrutura;
-    private ControleTurnos controleTurnos; // Novo campo para ControleTurnos
+    private ControleTurnos controleTurnos; 
+    private JLabel jogador1VidaLabel; // Atributo para exibir a vida do Jogador 1
+    private JLabel jogador2VidaLabel;// Novo campo para ControleTurnos
+    private int vidaJogador1 = 30;
+    private int vidaJogador2 = 30;
 
     // Construtor atualizado para aceitar ControleTurnos
     public MolduraCarta(Carta carta, Estrutura estrutura, ControleTurnos controleTurnos, boolean dono) {
@@ -141,16 +145,31 @@ public class MolduraCarta extends JPanel implements DragGestureListener, DragSou
         MolduraCarta molduraAtacante = estrutura.getMolduraCartaPorCarta(cartaAtacante);
         MolduraCarta molduraAtacada = estrutura.getMolduraCartaPorCarta(cartaAtacada);
 
-        if (molduraAtacante == null || molduraAtacada == null) {
+        if (molduraAtacante == null && molduraAtacada == null) {
             throw new CartaInvalidaException("Carta não encontrada no campo.");
         }
 
-        if (molduraAtacante.getParent() == estrutura.getPainelMaoJogador1() ||
-                molduraAtacada.getParent() == estrutura.getPainelMaoJogador1()) {
-            throw new CartaInvalidaException("Movimento inválido: cartas na mão não podem atacar ou ser atacadas.");
+        // Verificar se é um ataque direto ao personagem "Bem" ou "Mal"
+        if (molduraAtacada == null) {
+            if (cartaAtacada.getNome().equals("Bem")) {
+                if (!molduraAtacante.isDono()) {
+                    reduzirVidaJogador1(cartaAtacante.getAtaque());
+                } else {
+                    throw new CartaInvalidaException("Você não pode atacar seu próprio personagem!");
+                }
+            } else if (cartaAtacada.getNome().equals("Mal")) {
+                if (molduraAtacante.isDono()) {
+                    reduzirVidaJogador2(cartaAtacante.getAtaque());
+                } else {
+                    throw new CartaInvalidaException("Você não pode atacar seu próprio personagem!");
+                }
+            } else {
+                throw new CartaInvalidaException("Alvo inválido.");
+            }
+            return; // Fim do combate direto ao personagem
         }
 
-        // Verificar se a carta já atacou no turno
+        // Verificar se a carta atacante já atacou no turno
         if (molduraAtacante.jaAtacouNoTurno()) {
             throw new CartaInvalidaException("Esta carta já atacou neste turno!");
         }
@@ -218,6 +237,26 @@ public class MolduraCarta extends JPanel implements DragGestureListener, DragSou
 
         Transferable transferable = new TransferableCarta(carta);
         dragSource.startDrag(dge, DragSource.DefaultMoveDrop, transferable, this);
+    }
+    
+    private void reduzirVidaJogador1(int dano) {
+        vidaJogador1 -= dano;
+        jogador1VidaLabel.setText("Vida: " + vidaJogador1);
+
+        if (vidaJogador1 <= 0) {
+            JOptionPane.showMessageDialog(null, "O Jogador 2 venceu!");
+            System.exit(0);
+        }
+    }
+
+    private void reduzirVidaJogador2(int dano) {
+        vidaJogador2 -= dano;
+        jogador2VidaLabel.setText("Vida: " + vidaJogador2);
+
+        if (vidaJogador2 <= 0) {
+            JOptionPane.showMessageDialog(null, "O Jogador 1 venceu!");
+            System.exit(0);
+        }
     }
 
 
