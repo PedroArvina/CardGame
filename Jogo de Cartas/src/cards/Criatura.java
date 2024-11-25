@@ -2,8 +2,8 @@ package cards;
 
 public class Criatura extends Carta {
 
-    public Criatura(String nome, int mana, String descricao, int ataque, int vida, String imagem) {
-        super(nome, descricao, imagem, ataque, vida, mana);
+    public Criatura(String nome, int mana, String descricao, int ataque, int vida, String imagem, int id) {
+        super(nome, descricao, imagem, ataque, vida, mana, id); // Passando o ID para a superclasse
     }
 
     @Override
@@ -19,5 +19,10 @@ public class Criatura extends Carta {
     @Override
     public int getMana() {
         return super.getMana();
+    }
+
+    @Override
+    public int getId() {
+        return super.getId(); // Adicionando a chamada ao método getId()
     }
 }
