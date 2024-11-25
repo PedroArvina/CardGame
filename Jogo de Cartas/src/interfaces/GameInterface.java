@@ -266,17 +266,18 @@ public class GameInterface extends JFrame {
     }
 
     private void finalizarTurno() {
-    	
-    	 heroiJogador1AtacadoNoTurno = false; // Reinicia o ataque do Jogador 1
-    	 heroiJogador2AtacadoNoTurno = false; // Reinicia o ataque do Jogador 2
-    	    
+        heroiJogador1AtacadoNoTurno = false; 
+        heroiJogador2AtacadoNoTurno = false;
+
+        resetarEstadoDeAtaqueDasCartas(); // Reinicia o estado de ataque das cartas.
+
         if (controleTurnos.isTurnoDoJogador1()) {
             manaJogador1.aumentarMana();
-            estrutura.getAcessorioJogador1().reabastecerMao(); // Reabastece a mão do jogador 1
+            estrutura.getAcessorioJogador1().reabastecerMao();
             estrutura.atualizarMaoJogador1();
         } else {
             manaJogador2.aumentarMana();
-            estrutura.getAcessorioJogador2().reabastecerMao(); // Reabastece a mão do jogador 2
+            estrutura.getAcessorioJogador2().reabastecerMao();
             estrutura.atualizarMaoJogador2();
         }
 
@@ -284,6 +285,7 @@ public class GameInterface extends JFrame {
         atualizarTurnoVisual();
         atualizarMana();
     }
+
 
 
     private void iniciarManaTimer() {
@@ -323,6 +325,13 @@ public class GameInterface extends JFrame {
             System.exit(0); // Encerra o jogo
         }
     }
+    
+    private void resetarEstadoDeAtaqueDasCartas() {
+        for (MolduraCarta moldura : estrutura.getCartasNoCampo()) {
+            moldura.resetarAtaque();
+        }
+    }
+
 
 
     private void abrirJanelaCemiterio() {
