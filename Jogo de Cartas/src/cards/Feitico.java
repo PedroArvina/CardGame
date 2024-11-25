@@ -2,45 +2,34 @@ package cards;
 
 public class Feitico extends Carta {
     private String efeito;
-    private int vidaAdicionada;
-    private int ataqueAdicionado;
 
-    public Feitico(String nome, int mana, String descricao, String efeito, int vidaAdicionada, int ataqueAdicionado, String imagem, int id) {
-        super(nome, descricao, imagem, 0, 1, mana, id); 
+    // Removido vidaAdicionada e ataqueAdicionado, pois agora vamos passar vida e ataque diretamente
+    public Feitico(String nome, int mana, String descricao, String efeito, int vida, int ataque, String imagem, int id) {
+        super(nome, descricao, imagem, ataque, vida, mana, id); // Passando vida e ataque diretamente
         this.efeito = efeito;
-        this.vidaAdicionada = vidaAdicionada;
-        this.ataqueAdicionado = ataqueAdicionado;
     }
 
     @Override
     public int getAtaque() {
-        return 0;  
+        return super.getAtaque(); // Retorna o ataque que foi passado no construtor
     }
 
     @Override
     public int getVida() {
-        return 1;  
+        return super.getVida(); // Retorna a vida que foi passada no construtor
     }
 
     @Override
     public int getMana() {
-        return super.getMana();
+        return super.getMana(); // Retorna a mana da carta
     }
 
     public String getEfeito() {
-        return efeito;
-    }
-
-    public int getVidaAdicionada() {
-        return vidaAdicionada;
-    }
-
-    public int getAtaqueAdicionado() {
-        return ataqueAdicionado;
+        return efeito; // Retorna o efeito do feitiço
     }
 
     @Override
     public int getId() {
-        return super.getId();
+        return super.getId(); // Retorna o ID da carta
     }
 }
