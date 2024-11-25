@@ -1,0 +1,412 @@
+package game;
+
+import cards.Carta;
+import javax.swing.JOptionPane;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+public class Habilidades {
+	
+	private Map<Carta, MolduraCarta> cartasCampoJogador1;
+	private Map<Carta, MolduraCarta> cartasCampoJogador2;
+
+
+	public void ativarHabilidade(Carta carta, int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+	    switch (carta.getId()) {
+	    case 0:
+            habilidade0(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 1:
+            habilidade1(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 2:
+            habilidade2(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 3:
+            habilidade3(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 4:
+            habilidade4(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 5:
+            habilidade5(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 6:
+            habilidade6(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 7:
+            habilidade7(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 8:
+            habilidade8(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 9:
+            habilidade9(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 10:
+            habilidade10(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 11:
+            habilidade11(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 12:
+            habilidade12(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 13:
+            habilidade13(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 14:
+            habilidade14(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 15:
+            habilidade15(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 16:
+            habilidade16(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 17:
+            habilidade17(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 18:
+            habilidade18(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 19:
+            habilidade19(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 20:
+            habilidade20(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 21:
+            habilidade21(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 22:
+            habilidade22(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 23:
+            habilidade23(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 24:
+            habilidade24(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 25:
+            habilidade25(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 26:
+            habilidade26(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 27:
+            habilidade27(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 28:
+            habilidade28(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 29:
+            habilidade29(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 30:
+            habilidade30(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 31:
+            habilidade31(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 32:
+            habilidade32(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 33:
+            habilidade33(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 34:
+            habilidade34(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 35:
+            habilidade35(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 36:
+            habilidade36(idJogador, cartasCampoJogador1, cartasCampoJogador2); // Habilidade 36 com os parâmetros corretos
+            break;
+        case 37:
+            habilidade37(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 38:
+            habilidade38(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 39:
+            habilidade39(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 40:
+            habilidade40(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 41:
+            habilidade41(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 42:
+            habilidade42(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 43:
+            habilidade43(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 44:
+            habilidade44(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 45:
+            habilidade45(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 46:
+            habilidade46(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 47:
+            habilidade47(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 48:
+            habilidade48(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        case 49:
+            habilidade49(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            break;
+        default:
+            JOptionPane.showMessageDialog(null, "Habilidade não encontrada para a carta: " + carta.getNome(), "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+            break;
+        }
+    }
+
+
+    // Implementações de habilidades usando JOptionPane para exibir uma mensagem
+	private void habilidade0(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 0 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade1(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 1 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade2(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 2 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade3(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 3 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade4(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 4 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade5(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 5 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade6(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 6 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade7(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 7 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade8(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 8 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade9(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 9 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade10(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 10 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade11(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 11 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade12(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 12 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade13(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 13 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade14(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 14 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade15(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 15 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade16(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 16 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade17(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 17 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade18(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 18 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade19(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 19 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade20(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 20 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade21(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 21 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade22(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 22 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade23(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 23 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade24(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 24 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade25(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 25 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade26(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 26 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade27(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 27 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade28(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 28 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade29(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 29 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade30(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 30 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade31(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 31 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade32(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 32 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade33(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 33 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade34(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 34 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	private void habilidade35(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 35 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+	public void habilidade36(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+	    // Inicializa os mapas se forem nulos
+	    if (cartasCampoJogador1 == null) {
+	        cartasCampoJogador1 = new HashMap<>();
+	    }
+	    if (cartasCampoJogador2 == null) {
+	        cartasCampoJogador2 = new HashMap<>();
+	    }
+
+	    // Seleciona o campo correto com base no ID do jogador
+	    Map<Carta, MolduraCarta> cartasNoCampo = (idJogador == 1) ? cartasCampoJogador1 : cartasCampoJogador2;
+
+	    // Verifica se o mapa selecionado está vazio
+	    if (cartasNoCampo.isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "Erro: Nenhuma carta no campo do Jogador " + idJogador);
+	        return;
+	    }
+
+	    // Itera pelas cartas no campo do jogador e aplica o efeito
+	    for (Carta aliado : cartasNoCampo.keySet()) {
+	        int novaVida = aliado.getVida() + 2; // Aumenta a vida em 2
+	        aliado.setVida(novaVida);
+	    }
+
+	    JOptionPane.showMessageDialog(null,
+	        "Habilidade 36 ativada: Aumenta a vida de aliados do Jogador " + idJogador + " em 2.",
+	        "Habilidade 36",
+	        JOptionPane.INFORMATION_MESSAGE
+	    );
+	}
+
+
+
+
+
+
+
+
+
+    
+    private void habilidade37(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 37 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void habilidade38(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 38 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void habilidade39(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 39 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void habilidade40(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 40 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void habilidade41(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 41 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void habilidade42(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 42 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void habilidade43(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 43 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void habilidade44(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 44 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void habilidade45(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 45 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void habilidade46(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 46 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void habilidade47(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 47 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void habilidade48(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 48 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void habilidade49(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+        JOptionPane.showMessageDialog(null, "Habilidade 49 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+    }
+    }
