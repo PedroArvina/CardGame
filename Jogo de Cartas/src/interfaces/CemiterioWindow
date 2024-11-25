@@ -1,0 +1,51 @@
+package interfaces;
+
+import cards.Carta;
+import game.Estrutura;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+
+public class CemiterioWindow extends JFrame {
+
+    private JTextArea textArea;
+    private Estrutura estrutura;
+    private Timer swingTimer;
+
+    public CemiterioWindow(Estrutura estrutura) {
+        this.estrutura = estrutura;
+
+        setTitle("Cemitério de Cartas");
+        setSize(400, 300);
+        setLocationRelativeTo(null); // Centraliza a janela
+        setLayout(new BorderLayout());
+
+        textArea = new JTextArea();
+        textArea.setEditable(false);
+
+        add(new JScrollPane(textArea), BorderLayout.CENTER); // Adiciona barra de rolagem
+
+        // Inicia um javax.swing.Timer para atualizar o conteúdo a cada segundo
+        swingTimer = new Timer(1000, e -> atualizarCemiterio());
+        swingTimer.start(); // Inicia o timer para atualizações periódicas
+    }
+
+    private void atualizarCemiterio() {
+        // Obtém as cartas mortas do cemitério
+        List<Carta> cemiterio = estrutura.getCemiterio();
+
+        if (cemiterio.isEmpty()) {
+            textArea.setText("Nenhuma carta foi destruída ainda.");
+        } else {
+            StringBuilder textoCemiterio = new StringBuilder();
+            for (Carta carta : cemiterio) {
+                // Verifica se a carta veio do jogador ou do inimigo
+                String dono = estrutura.donoCartasCemiterio.get(carta);
+                textoCemiterio.append(carta.getNome()).append(" - ").append(dono).append("\n");
+            }
+            textArea.setText(textoCemiterio.toString());
+        }
+    }
+
+}
