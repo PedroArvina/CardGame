@@ -5,8 +5,8 @@ public class Feitico extends Carta {
     private int vidaAdicionada;
     private int ataqueAdicionado;
 
-    public Feitico(String nome, int mana, String descricao, String efeito, int vidaAdicionada, int ataqueAdicionado, String imagem) {
-        super(nome, descricao, imagem, 0, 0, mana);  
+    public Feitico(String nome, int mana, String descricao, String efeito, int vidaAdicionada, int ataqueAdicionado, String imagem, int id) {
+        super(nome, descricao, imagem, 0, 1, mana, id); 
         this.efeito = efeito;
         this.vidaAdicionada = vidaAdicionada;
         this.ataqueAdicionado = ataqueAdicionado;
@@ -19,7 +19,7 @@ public class Feitico extends Carta {
 
     @Override
     public int getVida() {
-        return 0;  
+        return 1;  
     }
 
     @Override
@@ -37,5 +37,10 @@ public class Feitico extends Carta {
 
     public int getAtaqueAdicionado() {
         return ataqueAdicionado;
+    }
+
+    @Override
+    public int getId() {
+        return super.getId();
     }
 }
