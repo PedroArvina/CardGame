@@ -34,6 +34,8 @@ public class Acessorio {
 
             if (carta != null) {
                 bolinhoJogador.add(carta);
+            } else {
+                System.out.println("Aviso: Carta com ID " + id + " não foi encontrada.");
             }
         }
 
@@ -50,6 +52,8 @@ public class Acessorio {
     public void puxarCarta() {
         if (!bolinhoJogador.isEmpty() && maoJogador.size() < 5) {  // Garante que o jogador tenha até 5 cartas na mão
             maoJogador.add(bolinhoJogador.remove(0));
+        } else {
+            System.out.println("Não há mais cartas no deck para puxar ou a mão já está cheia.");
         }
     }
 
@@ -58,12 +62,18 @@ public class Acessorio {
     }
 
     public void removerCartaDaMao(Carta carta) {
-        maoJogador.remove(carta);
-        puxarCarta();  // Reabastece a mão imediatamente quando uma carta é removida
+        if (maoJogador.contains(carta)) {
+            maoJogador.remove(carta);
+            System.out.println("Carta removida da mão: " + carta.getNome());
+            puxarCarta();  // Reabastece a mão imediatamente
+        } else {
+            System.out.println("Erro: Tentativa de remover uma carta que não está na mão: " + carta.getNome());
+        }
     }
 
+
     public void reabastecerMao() {
-        while (maoJogador.size() < 5) {
+        while (maoJogador.size() < 5 && !bolinhoJogador.isEmpty()) {
             puxarCarta();  // Reabastece a mão até que tenha 5 cartas
         }
     }
