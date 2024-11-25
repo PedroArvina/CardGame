@@ -419,12 +419,21 @@ public class Estrutura {
         painelCampo.add(molduraCarta);
         painelCampo.revalidate();
         painelCampo.repaint();
+
         int idJogador = isJogador1 ? 1 : 2;
         habilidades.ativarHabilidade(carta, idJogador, cartasCampoJogador1, cartasCampoJogador2);
 
-        
-
+        // Verifica se o ID da carta é maior ou igual a 36
+        if (carta.getId() >= 36) {
+            Timer timer = new Timer(1000, e -> {
+                removerCartaDoCampo(carta, painelCampo);
+                JOptionPane.showMessageDialog(null, "A carta " + carta.getNome() + " ativou sua habilidade e foi removida do tabuleiro.");
+            });
+            timer.setRepeats(false); // Garante que o timer execute apenas uma vez
+            timer.start();
+        }
     }
+
 
 
 
