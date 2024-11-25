@@ -1,0 +1,53 @@
+package game;
+
+import java.util.Map;
+
+import cards.Carta;
+
+public class CartaEstado {
+    private int id;
+    private int ataque;
+    private int vida;
+    private int posicao; // Usado para armazenar a posição da carta no tabuleiro
+    private Map<Integer, Carta> idParaCarta; // Mapa para armazenar a associação entre ID e Carta
+
+    public CartaEstado(int id, int ataque, int vida, int posicao, Map<Integer, Carta> idParaCarta) {
+        this.id = id;
+        this.ataque = ataque;
+        this.vida = vida;
+        this.posicao = posicao;
+        this.idParaCarta = idParaCarta; // Inicializa o mapa
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getAtaque() {
+        return ataque;
+    }
+
+    public int getVida() {
+        return vida;
+    }
+
+    public int getPosicao() {
+        return posicao;
+    }
+
+    public void setAtaque(int ataque) {
+        this.ataque = ataque;
+    }
+
+    public void setVida(int vida) {
+        this.vida = vida;
+    }
+
+    public void setPosicao(int posicao) {
+        this.posicao = posicao;
+    }
+
+    public Carta getCarta() {
+        return idParaCarta.get(id); // Retorna a carta associada ao ID
+    }
+}
