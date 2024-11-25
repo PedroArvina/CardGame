@@ -3,13 +3,11 @@ package game;
 import interfaces.GameInterface;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class Selecao extends JFrame {
 
@@ -100,19 +98,6 @@ public class Selecao extends JFrame {
 
         painelPrincipal.add(painelCartas, BorderLayout.CENTER);
 
-        // Botão "Aleatório"
-        JButton botaoAleatorio = new JButton("Aleatório");
-        botaoAleatorio.setFont(fonteRPG);
-        botaoAleatorio.setBackground(new Color(64, 40, 27));
-        botaoAleatorio.setForeground(Color.WHITE);
-        botaoAleatorio.setBorder(BorderFactory.createLineBorder(new Color(139, 69, 19), 3));
-        botaoAleatorio.setFocusPainted(false);
-        botaoAleatorio.addActionListener(e -> selecionarCartasAleatorias());
-
-        JPanel painelAleatorio = new JPanel();
-        painelAleatorio.add(botaoAleatorio);
-        painelPrincipal.add(painelAleatorio, BorderLayout.NORTH);
-
         JButton botaoConfirmar = new JButton(isSelecionandoJogador ? "Confirmar Deck do Jogador" : "Confirmar Deck do Inimigo");
         botaoConfirmar.setFont(fonteRPG);
         botaoConfirmar.setBackground(new Color(64, 40, 27));
@@ -125,10 +110,10 @@ public class Selecao extends JFrame {
 
                 if (isSelecionandoJogador) {
                     Acessorio jogadorDeck = new Acessorio(cartasSelecionadas);
-                    new Selecao(false, jogadorDeck).setVisible(true); // Passa o deck do jogador para a seleção do inimigo
+                    new Selecao(false, jogadorDeck).setVisible(true);
                 } else {
                     Acessorio acessorioInimigo = new Acessorio(cartasSelecionadas);
-                    new GameInterface(acessorioJogador, acessorioInimigo).setVisible(true); // Inicia o jogo com ambos os decks
+                    new GameInterface(acessorioJogador, acessorioInimigo).setVisible(true);
                 }
                 dispose();
             } else {
@@ -143,20 +128,7 @@ public class Selecao extends JFrame {
         setVisible(true);
     }
 
-    // Função para selecionar 30 cartas aleatórias
-    private void selecionarCartasAleatorias() {
-        cartasSelecionadas.clear(); // Limpa as seleções atuais
-        Random random = new Random();
-        while (cartasSelecionadas.size() < 30) {
-            int cartaAleatoria = random.nextInt(50); // Gera um índice aleatório
-            if (!cartasSelecionadas.contains(cartaAleatoria)) {
-                cartasSelecionadas.add(cartaAleatoria);
-                botoesCartas[cartaAleatoria].setBorder(BorderFactory.createLineBorder(Color.GREEN, 3)); // Marca a carta como selecionada
-            }
-        }
-    }
-
     public static void main(String[] args) {
-        new Selecao(true, null); // Inicializa a seleção do deck do jogador
+        new Selecao(true, null);
     }
 }
