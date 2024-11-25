@@ -3,6 +3,7 @@ package game;
 import cards.Carta;
 import javax.swing.JOptionPane;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,7 +123,7 @@ public class Habilidades {
             habilidade34(idJogador, cartasCampoJogador1, cartasCampoJogador2);
             break;
         case 35:
-            habilidade35(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            habilidade36(idJogador, cartasCampoJogador1, cartasCampoJogador2);
             break;
         case 36:
             habilidade36(idJogador, cartasCampoJogador1, cartasCampoJogador2); 
@@ -131,7 +132,7 @@ public class Habilidades {
         	habilidade36(idJogador, cartasCampoJogador1, cartasCampoJogador2); 
             break;
         case 38:
-        	habilidade36(idJogador, cartasCampoJogador1, cartasCampoJogador2); 
+        	habilidade39(idJogador, cartasCampoJogador1, cartasCampoJogador2); 
             break;
         case 39:
             habilidade39(idJogador, cartasCampoJogador1, cartasCampoJogador2);
@@ -140,7 +141,7 @@ public class Habilidades {
         	habilidade39(idJogador, cartasCampoJogador1, cartasCampoJogador2);
             break;
         case 41:
-        	habilidade39(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+        	habilidade42(idJogador, cartasCampoJogador1, cartasCampoJogador2);
             break;
         case 42:
             habilidade42(idJogador, cartasCampoJogador1, cartasCampoJogador2);
@@ -149,7 +150,7 @@ public class Habilidades {
         	habilidade42(idJogador, cartasCampoJogador1, cartasCampoJogador2);
             break;
         case 44:
-        	habilidade42(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+        	habilidade45(idJogador, cartasCampoJogador1, cartasCampoJogador2);
             break;
         case 45:
             habilidade45(idJogador, cartasCampoJogador1, cartasCampoJogador2);
@@ -164,7 +165,7 @@ public class Habilidades {
         	habilidade46(idJogador, cartasCampoJogador1, cartasCampoJogador2);
             break;
         case 49:
-            habilidade49(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+        	habilidade49(idJogador, cartasCampoJogador1, cartasCampoJogador2);
             break;
         case 50:
             habilidade50(idJogador, cartasCampoJogador1, cartasCampoJogador2);
@@ -321,198 +322,147 @@ public class Habilidades {
         JOptionPane.showMessageDialog(null, "Habilidade 35 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
     }
     
-	public void habilidade36(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-	    // Inicializa os mapas se forem nulos
-	    if (cartasCampoJogador1 == null) {
-	        cartasCampoJogador1 = new HashMap<>();
-	    }
-	    if (cartasCampoJogador2 == null) {
-	        cartasCampoJogador2 = new HashMap<>();
-	    }
-
-	    // Seleciona o campo correto com base no ID do jogador
+	private void habilidade36(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
 	    Map<Carta, MolduraCarta> cartasNoCampo = (idJogador == 1) ? cartasCampoJogador1 : cartasCampoJogador2;
 
-	    // Verifica se o mapa selecionado está vazio
 	    if (cartasNoCampo.isEmpty()) {
 	        JOptionPane.showMessageDialog(null, "Erro: Nenhuma carta no campo do Jogador " + idJogador);
 	        return;
 	    }
 
-	    // Itera pelas cartas no campo do jogador e aplica o efeito
+	    List<Carta> cartasParaRemover = new ArrayList<>();
 	    for (Carta aliado : cartasNoCampo.keySet()) {
 	        int novaVida = aliado.getVida() + 2; // Aumenta a vida em 2
 	        aliado.setVida(novaVida);
+	        cartasParaRemover.add(aliado);
 	    }
 
-	    JOptionPane.showMessageDialog(null,
-	        "Habilidade 36 ativada: Aumenta a vida de aliados do Jogador " + idJogador + " em 2.",
-	        "Habilidade 36",
-	        JOptionPane.INFORMATION_MESSAGE
-	    );
-	    
-	    
+	    // Remove as cartas depois da iteração para evitar ConcurrentModificationException
+	    for (Carta carta : cartasParaRemover) {
+	        cartasNoCampo.remove(carta);
+	    }
+
+	    JOptionPane.showMessageDialog(null, "Habilidade 36 ativada: Aumenta a vida de aliados do Jogador " + idJogador + " em 2.", "Habilidade 36", JOptionPane.INFORMATION_MESSAGE);
 	}
 
-
-
-
-
-
-
-
-
-    
-    
-    
-    private void habilidade39(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-    	// Inicializa os mapas se forem nulos
-	    if (cartasCampoJogador1 == null) {
-	        cartasCampoJogador1 = new HashMap<>();
-	    }
-	    if (cartasCampoJogador2 == null) {
-	        cartasCampoJogador2 = new HashMap<>();
-	    }
-
-	    // Seleciona o campo correto com base no ID do jogador
+	private void habilidade39(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
 	    Map<Carta, MolduraCarta> cartasNoCampo = (idJogador == 1) ? cartasCampoJogador1 : cartasCampoJogador2;
 
-	    // Verifica se o mapa selecionado está vazio
 	    if (cartasNoCampo.isEmpty()) {
 	        JOptionPane.showMessageDialog(null, "Erro: Nenhuma carta no campo do Jogador " + idJogador);
 	        return;
 	    }
 
-	    // Itera pelas cartas no campo do jogador e aplica o efeito
+	    List<Carta> cartasParaRemover = new ArrayList<>();
 	    for (Carta aliado : cartasNoCampo.keySet()) {
-	        int novaVida = aliado.getVida() + 4; // Aumenta a vida em 2
+	        int novaVida = aliado.getVida() + 4; // Aumenta a vida em 4
 	        aliado.setVida(novaVida);
+	        cartasParaRemover.add(aliado);
 	    }
 
-	    JOptionPane.showMessageDialog(null,
-	        "Habilidade 36 ativada: Aumenta a vida de aliados do Jogador " + idJogador + " em 2.",
-	        "Habilidade 36",
-	        JOptionPane.INFORMATION_MESSAGE
-	    );
-    }
-    
-    
-    
-    private void habilidade42(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        // Seleciona o campo correto com base no ID do jogador
-        Map<Carta, MolduraCarta> cartasNoCampo = (idJogador == 1) ? cartasCampoJogador1 : cartasCampoJogador2;
+	    for (Carta carta : cartasParaRemover) {
+	        cartasNoCampo.remove(carta);
+	    }
 
-        // Exibe a mensagem de ativação da habilidade
-        JOptionPane.showMessageDialog(null, "Habilidade 42 ativada! Aumenta o ataque de aliados em 2.", "Habilidade 42", JOptionPane.INFORMATION_MESSAGE);
+	    JOptionPane.showMessageDialog(null, "Habilidade 39 ativada: Aumenta a vida de aliados do Jogador " + idJogador + " em 4.", "Habilidade 39", JOptionPane.INFORMATION_MESSAGE);
+	}
 
-        // Itera pelas cartas no campo do jogador e aplica o efeito
-        for (Carta aliado : cartasNoCampo.keySet()) {
-            int novoAtaque = aliado.getAtaque() + 2; // Aumenta o ataque em 2
-            aliado.setAtaque(novoAtaque); // Atualiza o ataque da carta
-        }
+	private void habilidade42(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+	    Map<Carta, MolduraCarta> cartasNoCampo = (idJogador == 1) ? cartasCampoJogador1 : cartasCampoJogador2;
 
-        // Exibe a mensagem de encantamento aplicado
-        JOptionPane.showMessageDialog(null,
-            "Encantamento 'Cristal do Pensamento' ativado: Aumenta o ataque de Aliados em 2.",
-            "Encantamento",
-            JOptionPane.INFORMATION_MESSAGE
-        );
-    }
+	    JOptionPane.showMessageDialog(null, "Habilidade 42 ativada! Aumenta o ataque de aliados em 2.", "Habilidade 42", JOptionPane.INFORMATION_MESSAGE);
 
-    
-    
-    
-    private void habilidade45(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        // Seleciona o campo correto com base no ID do jogador
-        Map<Carta, MolduraCarta> cartasNoCampo = (idJogador == 1) ? cartasCampoJogador1 : cartasCampoJogador2;
+	    List<Carta> cartasParaRemover = new ArrayList<>();
+	    for (Carta aliado : cartasNoCampo.keySet()) {
+	        int novoAtaque = aliado.getAtaque() + 2; // Aumenta o ataque em 2
+	        aliado.setAtaque(novoAtaque); // Atualiza o ataque da carta
+	        cartasParaRemover.add(aliado);
+	    }
 
-        // Exibe a mensagem de ativação da habilidade
-        JOptionPane.showMessageDialog(null, "Habilidade 45 ativada! Aumenta a vida de Aliados em 9.", "Habilidade 45", JOptionPane.INFORMATION_MESSAGE);
+	    for (Carta carta : cartasParaRemover) {
+	        cartasNoCampo.remove(carta);
+	    }
 
-        // Itera pelas cartas no campo do jogador e aplica o efeito
-        for (Carta aliado : cartasNoCampo.keySet()) {
-            int novaVida = aliado.getVida() + 9; // Aumenta a vida em 9
-            aliado.setVida(novaVida); // Atualiza a vida da carta
-        }
+	    JOptionPane.showMessageDialog(null, "Encantamento 'Cristal do Pensamento' ativado: Aumenta o ataque de Aliados em 2.", "Encantamento", JOptionPane.INFORMATION_MESSAGE);
+	}
 
-        // Exibe a mensagem de encantamento aplicado
-        JOptionPane.showMessageDialog(null,
-            "Encantamento 'Escudo Celestial' ativado: Aumenta a vida de Aliados em 9.",
-            "Encantamento",
-            JOptionPane.INFORMATION_MESSAGE
-        );
-    }
+	private void habilidade45(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+	    Map<Carta, MolduraCarta> cartasNoCampo = (idJogador == 1) ? cartasCampoJogador1 : cartasCampoJogador2;
 
-    
-    private void habilidade46(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        // Seleciona o campo correto com base no ID do jogador
-        Map<Carta, MolduraCarta> cartasNoCampo = (idJogador == 1) ? cartasCampoJogador1 : cartasCampoJogador2;
+	    JOptionPane.showMessageDialog(null, "Habilidade 45 ativada! Aumenta a vida de Aliados em 9.", "Habilidade 45", JOptionPane.INFORMATION_MESSAGE);
 
-        // Exibe a mensagem de ativação da habilidade
-        JOptionPane.showMessageDialog(null, "Habilidade 46 ativada! Causa 2 de dano a todos no tabuleiro.", "Habilidade 46", JOptionPane.INFORMATION_MESSAGE);
+	    List<Carta> cartasParaRemover = new ArrayList<>();
+	    for (Carta aliado : cartasNoCampo.keySet()) {
+	        int novaVida = aliado.getVida() + 9; // Aumenta a vida em 9
+	        aliado.setVida(novaVida); // Atualiza a vida da carta
+	        cartasParaRemover.add(aliado);
+	    }
 
-        // Aplica o dano a todas as cartas no campo de ambos os jogadores
-        for (Map<Carta, MolduraCarta> campo : new Map[]{cartasCampoJogador1, cartasCampoJogador2}) {
-            for (Carta inimigo : campo.keySet()) {
-                int novaVida = inimigo.getVida() - 2; // Causa 2 de dano
-                inimigo.setVida(novaVida); // Atualiza a vida da carta
-            }
-        }
+	    for (Carta carta : cartasParaRemover) {
+	        cartasNoCampo.remove(carta);
+	    }
 
-        // Exibe a mensagem de efeito
-        JOptionPane.showMessageDialog(null,
-            "Feitiço 'Bola de Energia' ativado: Causa 2 de dano a todas as cartas no campo.",
-            "Feitiço",
-            JOptionPane.INFORMATION_MESSAGE
-        );
-    }
+	    JOptionPane.showMessageDialog(null, "Encantamento 'Escudo Celestial' ativado: Aumenta a vida de Aliados em 9.", "Encantamento", JOptionPane.INFORMATION_MESSAGE);
+	}
 
-    
-    
-    
-    private void habilidade49(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        // Seleciona o campo correto com base no ID do jogador
-        Map<Carta, MolduraCarta> cartasNoCampo = (idJogador == 1) ? cartasCampoJogador1 : cartasCampoJogador2;
+	private void habilidade46(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+	    Map<Carta, MolduraCarta> cartasNoCampo = (idJogador == 1) ? cartasCampoJogador1 : cartasCampoJogador2;
 
-        // Exibe a mensagem de ativação da habilidade
-        JOptionPane.showMessageDialog(null, "Habilidade 49 ativada! Aumenta 3 de vida a todos no campo.", "Habilidade 49", JOptionPane.INFORMATION_MESSAGE);
+	    JOptionPane.showMessageDialog(null, "Habilidade 46 ativada! Causa 2 de dano a todos no tabuleiro.", "Habilidade 46", JOptionPane.INFORMATION_MESSAGE);
 
-        // Aplica o aumento de vida a todas as cartas no campo de ambos os jogadores
-        for (Map<Carta, MolduraCarta> campo : new Map[]{cartasCampoJogador1, cartasCampoJogador2}) {
-            for (Carta aliado : campo.keySet()) {
-                int novaVida = aliado.getVida() + 3; // Aumenta a vida em 3
-                aliado.setVida(novaVida); // Atualiza a vida da carta
-            }
-        }
+	    List<Carta> cartasParaRemover = new ArrayList<>();
+	    for (Map<Carta, MolduraCarta> campo : new Map[]{cartasCampoJogador1, cartasCampoJogador2}) {
+	        for (Carta inimigo : campo.keySet()) {
+	            int novaVida = inimigo.getVida() - 2; // Causa 2 de dano
+	            inimigo.setVida(novaVida); // Atualiza a vida da carta
+	            cartasParaRemover.add(inimigo);
+	        }
+	    }
 
-        // Exibe a mensagem de efeito
-        JOptionPane.showMessageDialog(null,
-            "Feitiço 'Proteção Arcana' ativado: Aumenta 3 de vida para todas as cartas no campo.",
-            "Feitiço",
-            JOptionPane.INFORMATION_MESSAGE
-        );
-    }
-    
-    
-    private void habilidade50(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        // Exibe a mensagem de ativação da habilidade
-        JOptionPane.showMessageDialog(null, "Habilidade 50 ativada! Armagedom causando 30 de dano a todas as cartas.", "Habilidade 50", JOptionPane.INFORMATION_MESSAGE);
+	    for (Carta carta : cartasParaRemover) {
+	        cartasNoCampo.remove(carta);
+	    }
 
-        // Itera pelas cartas no campo de ambos os jogadores
-        for (Map<Carta, MolduraCarta> campo : new Map[]{cartasCampoJogador1, cartasCampoJogador2}) {
-            for (Carta carta : campo.keySet()) {
-                int novaVida = carta.getVida() - 30; // Causa 30 de dano a cada carta
-                carta.setVida(Math.max(novaVida, 0)); // Atualiza a vida da carta, garantindo que não fique negativa
-            }
-        }
+	    JOptionPane.showMessageDialog(null, "Feitiço 'Bola de Energia' ativado: Causa 2 de dano a todas as cartas no campo.", "Feitiço", JOptionPane.INFORMATION_MESSAGE);
+	}
 
-        // Exibe a mensagem de efeito
-        JOptionPane.showMessageDialog(null,
-            "Feitiço 'Armagedom' ativado: Causa 30 de dano a todas as cartas no campo.",
-            "Feitiço",
-            JOptionPane.INFORMATION_MESSAGE
-        );
-    }
+	private void habilidade49(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+	    Map<Carta, MolduraCarta> cartasNoCampo = (idJogador == 1) ? cartasCampoJogador1 : cartasCampoJogador2;
 
+	    JOptionPane.showMessageDialog(null, "Habilidade 49 ativada! Aumenta 3 de vida a todos no campo.", "Habilidade 49", JOptionPane.INFORMATION_MESSAGE);
 
-    }
+	    List<Carta> cartasParaRemover = new ArrayList<>();
+	    for (Map<Carta, MolduraCarta> campo : new Map[]{cartasCampoJogador1, cartasCampoJogador2}) {
+	        for (Carta aliado : campo.keySet()) {
+	            int novaVida = aliado.getVida() + 3; // Aumenta a vida em 3
+	            aliado.setVida(novaVida); // Atualiza a vida da carta
+	            cartasParaRemover.add(aliado);
+	        }
+	    }
+
+	    for (Carta carta : cartasParaRemover) {
+	        cartasNoCampo.remove(carta);
+	    }
+
+	    JOptionPane.showMessageDialog(null, "Feitiço 'Proteção Arcana' ativado: Aumenta 3 de vida para todas as cartas no campo.", "Feitiço", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	private void habilidade50(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
+	    JOptionPane.showMessageDialog(null, "Habilidade 50 ativada! Armagedom causando 30 de dano a todas as cartas.", "Habilidade 50", JOptionPane.INFORMATION_MESSAGE);
+
+	    List<Carta> cartasParaRemover = new ArrayList<>();
+	    for (Map<Carta, MolduraCarta> campo : new Map[]{cartasCampoJogador1, cartasCampoJogador2}) {
+	        for (Carta carta : campo.keySet()) {
+	            int novaVida = carta.getVida() - 30; // Causa 30 de dano a cada carta
+	            carta.setVida(Math.max(novaVida, 0)); // Atualiza a vida da carta
+	            cartasParaRemover.add(carta);
+	        }
+	    }
+
+	    for (Carta carta : cartasParaRemover) {
+	        cartasCampoJogador1.remove(carta); // Remove do campo do Jogador 1
+	        cartasCampoJogador2.remove(carta); // Remove do campo do Jogador 2
+	    }
+
+	    JOptionPane.showMessageDialog(null, "Feitiço 'Armagedom' ativado: Causa 30 de dano a todas as cartas no campo.", "Feitiço", JOptionPane.INFORMATION_MESSAGE);
+	}}
