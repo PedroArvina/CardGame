@@ -2,8 +2,8 @@ package cards;
 
 public class Encantamento extends Carta {
 
-    public Encantamento(String nome, int mana, String descricao, int ataque, int vida, String imagem) {
-        super(nome, descricao, imagem, ataque, vida, mana);
+    public Encantamento(String nome, int mana, String descricao, int ataque, int vida, String imagem, int id) {
+        super(nome, descricao, imagem, 0, 1, mana, id); // Passando o ID para a superclasse
     }
 
     @Override
@@ -19,5 +19,10 @@ public class Encantamento extends Carta {
     @Override
     public int getMana() {
         return super.getMana();
+    }
+
+    @Override
+    public int getId() {
+        return super.getId(); // Adicionando a chamada ao método getId()
     }
 }
