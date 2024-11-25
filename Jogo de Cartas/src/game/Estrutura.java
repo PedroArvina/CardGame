@@ -16,6 +16,8 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DnDConstants;
+import java.util.List;
+
 
 
 public class Estrutura {
@@ -53,7 +55,9 @@ public class Estrutura {
         criarPainelMaoJogador2();
         criarPainelCampoJogador1();
         criarPainelCampoJogador2();
+        
 
+        
         atualizarMaoJogador1();
         atualizarMaoJogador2();
     }
@@ -415,7 +419,11 @@ public class Estrutura {
         painelCampo.add(molduraCarta);
         painelCampo.revalidate();
         painelCampo.repaint();
-        habilidades.ativarHabilidade(carta);
+        int idJogador = isJogador1 ? 1 : 2;
+        habilidades.ativarHabilidade(carta, idJogador, cartasCampoJogador1, cartasCampoJogador2);
+
+        
+
     }
 
 
