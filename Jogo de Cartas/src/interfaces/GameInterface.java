@@ -189,9 +189,11 @@ public class GameInterface extends JFrame {
     private void finalizarTurno() {
         if (controleTurnos.isTurnoDoJogador1()) {
             manaJogador1.aumentarMana();
+            estrutura.getAcessorioJogador1().reabastecerMao(); // Reabastece a mão do jogador 1
             estrutura.atualizarMaoJogador1();
         } else {
             manaJogador2.aumentarMana();
+            estrutura.getAcessorioJogador2().reabastecerMao(); // Reabastece a mão do jogador 2
             estrutura.atualizarMaoJogador2();
         }
 
@@ -199,6 +201,7 @@ public class GameInterface extends JFrame {
         atualizarTurnoVisual();
         atualizarMana();
     }
+
 
     private void iniciarManaTimer() {
         manaUpdateTimer = new Timer(1000, e -> atualizarMana());
