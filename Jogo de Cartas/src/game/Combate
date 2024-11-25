@@ -1,0 +1,71 @@
+package game;
+
+import cards.Carta;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Combate {
+
+    private List<String> logCombate; // Armazena o log de combate com informações sobre as cartas destruídas
+    private Estrutura estrutura; // Referência à estrutura do jogo
+
+    public Combate(Estrutura estrutura) {
+        this.logCombate = new ArrayList<>();
+        this.estrutura = estrutura;
+    }
+
+   
+    public void realizarCombate(Carta atacante, Carta defensor, boolean atacanteIsPlayer) {
+        if (atacante == null || defensor == null) {
+            throw new IllegalArgumentException("Cartas não podem ser nulas.");
+        }
+
+        System.out.println("Combate entre " + atacante.getNome() + " e " + defensor.getNome());
+
+        // O atacante inflige dano ao defensor e o defensor contra-ataca usando o método atacar
+        atacante.atacar(defensor);
+
+        // Verifica o resultado do combate e remove as cartas destruídas
+        verificarResultado(atacante, defensor, atacanteIsPlayer);
+    }
+
+   
+    private void verificarResultado(Carta atacante, Carta defensor, boolean atacanteIsPlayer) {
+        boolean atacanteMorto = atacante.getVida() <= 0;
+        boolean defensorMorto = defensor.getVida() <= 0;
+
+        if (atacanteMorto) {
+            logarDestruicao(atacante, atacanteIsPlayer);
+            // Remover a carta atacante do tabuleiro do jogador
+            removerCartaDoCampo(atacante, atacanteIsPlayer);
+        }
+
+        if (defensorMorto) {
+            logarDestruicao(defensor, !atacanteIsPlayer);
+            // Remover a carta defensora do tabuleiro do inimigo
+            removerCartaDoCampo(defensor, !atacanteIsPlayer);
+        }
+    }
+
+    
+    private void removerCartaDoCampo(Carta carta, boolean pertenceAoPlayer) {
+        if (pertenceAoPlayer) {
+            estrutura.removerCartaDoCampo(carta, estrutura.getPainelCampoJogador1());
+        } else {
+            estrutura.removerCartaDoCampo(carta, estrutura.getPainelCampoJogador2());
+        }
+    }
+
+   
+    private void logarDestruicao(Carta carta, boolean pertenceAoPlayer) {
+        String quem = pertenceAoPlayer ? "Jogador" : "Inimigo";
+        String log = "Carta destruída: " + carta.getNome() + " (Pertencia ao " + quem + ")";
+        logCombate.add(log);
+        System.out.println(log); // Opcional: mostra o log no console
+    }
+
+    public List<String> getLogCombate() {
+        return logCombate;
+    }
+}
