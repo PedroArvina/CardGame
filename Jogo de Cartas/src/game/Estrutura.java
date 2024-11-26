@@ -85,11 +85,14 @@ public class Estrutura {
     }
 
     public void adicionarCartaAoCemiterio(Carta carta, boolean isJogador1) {
-        String dono = isJogador1 ? "Jogador 1" : "Jogador 2";
-        cemiterio.add(carta);
-        donoCartasCemiterio.put(carta, dono);
-        System.out.println("Carta " + carta.getNome() + " (" + dono + ") foi enviada ao cemitério.");
+        if (!cemiterio.contains(carta)) { // Verifica se a carta já não está no cemitério
+            String dono = isJogador1 ? "Jogador 1" : "Jogador 2";
+            cemiterio.add(carta);
+            donoCartasCemiterio.put(carta, dono);
+            System.out.println("Carta " + carta.getNome() + " (" + dono + ") foi enviada ao cemitério.");
+        } 
     }
+
 
     public List<Carta> getCemiterio() {
         return cemiterio;
