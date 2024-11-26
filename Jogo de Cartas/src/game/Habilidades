@@ -42,13 +42,13 @@ public class Habilidades {
             habilidade7(idJogador, cartasCampoJogador1, cartasCampoJogador2);
             break;
         case 8:
-            habilidade8(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            habilidade9(idJogador, cartasCampoJogador1, cartasCampoJogador2);
             break;
         case 9:
             habilidade9(idJogador, cartasCampoJogador1, cartasCampoJogador2);
             break;
         case 10:
-            habilidade10(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            habilidade9(idJogador, cartasCampoJogador1, cartasCampoJogador2);
             break;
         case 11:
             habilidade11(idJogador, cartasCampoJogador1, cartasCampoJogador2);
@@ -66,7 +66,7 @@ public class Habilidades {
             habilidade15(idJogador, cartasCampoJogador1, cartasCampoJogador2);
             break;
         case 16:
-            habilidade16(idJogador, cartasCampoJogador1, cartasCampoJogador2);
+            habilidade17(idJogador, cartasCampoJogador1, cartasCampoJogador2);
             break;
         case 17:
             habilidade17(idJogador, cartasCampoJogador1, cartasCampoJogador2);
@@ -179,147 +179,174 @@ public class Habilidades {
 
     // Implementações de habilidades usando JOptionPane para exibir uma mensagem
 	private void habilidade0(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 0 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade1(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 1 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade2(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 2 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade3(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 3 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade4(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 4 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade5(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 5 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade6(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 6 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade7(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 7 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade8(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 8 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade9(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 9 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
-    }
+	    // Determina o campo do jogador que ativou a habilidade
+	    Map<Carta, MolduraCarta> cartasNoCampo = (idJogador == 1) ? cartasCampoJogador1 : cartasCampoJogador2;
+
+	   
+
+	    // Itera pelas cartas no campo do jogador para aplicar o efeito
+	    for (Carta aliado : cartasNoCampo.keySet()) {
+	        int novaVida = aliado.getVida() + 1; // Aumenta a vida em 1
+	        aliado.setVida(novaVida); // Atualiza a vida da carta
+	    }
+
+
+	    // Exibe uma mensagem informando a ativação da habilidade
+	    JOptionPane.showMessageDialog(null, "Habilidade 9 ativada: Poder Ancestral - +1 de vida para todos os aliados.", "Habilidade 9", JOptionPane.INFORMATION_MESSAGE);
+	}
+
     
 	private void habilidade10(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 10 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade11(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 11 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade12(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 12 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade13(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 13 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+       
     }
     
 	private void habilidade14(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 14 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade15(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 15 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade16(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 16 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade17(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 17 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
-    }
+	    // Determina o campo do jogador que ativou a habilidade
+	    Map<Carta, MolduraCarta> cartasNoCampo = (idJogador == 1) ? cartasCampoJogador1 : cartasCampoJogador2;
+
+	    // Exibe uma mensagem informando a ativação da habilidade
+	    JOptionPane.showMessageDialog(null, "Habilidade 17 ativada! Grito de guerra do Minotauro: +1 de ataque para todos os aliados.", "Habilidade 17", JOptionPane.INFORMATION_MESSAGE);
+
+	    // Itera pelas cartas no campo do jogador para aplicar o efeito
+	    for (Carta aliado : cartasNoCampo.keySet()) {
+	        int novoAtaque = aliado.getAtaque() + 1; // Aumenta o ataque em 1
+	        aliado.setAtaque(novoAtaque); // Atualiza o ataque da carta
+	    }
+
+	   
+	}
+
     
 	private void habilidade18(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 18 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade19(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 19 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade20(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 20 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade21(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 21 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade22(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 22 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade23(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 23 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade24(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 24 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade25(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 25 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade26(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 26 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade27(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 27 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade28(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 28 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade29(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 29 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade30(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 30 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade31(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 31 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade32(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 32 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade33(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 33 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade34(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 34 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade35(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
-        JOptionPane.showMessageDialog(null, "Habilidade 35 ativada!", "Habilidade", JOptionPane.INFORMATION_MESSAGE);
+        
     }
     
 	private void habilidade36(int idJogador, Map<Carta, MolduraCarta> cartasCampoJogador1, Map<Carta, MolduraCarta> cartasCampoJogador2) {
