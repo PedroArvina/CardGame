@@ -391,8 +391,8 @@ public class Estrutura {
         JPanel painelCampo = isJogador1 ? painelCampoJogador1 : painelCampoJogador2;
         Mana manaAtual = isJogador1 ? manaJogador1 : manaJogador2;
 
-        if (painelCampo.getComponentCount() >= 9) {
-            JOptionPane.showMessageDialog(null, "Não é possível adicionar mais de 9 cartas no tabuleiro.");
+        if (painelCampo.getComponentCount() >= 8) {
+            JOptionPane.showMessageDialog(null, "Não é possível adicionar mais de 8 cartas no tabuleiro.");
             return;
         }
 
