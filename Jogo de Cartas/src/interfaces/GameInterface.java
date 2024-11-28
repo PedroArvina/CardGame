@@ -34,8 +34,8 @@ public class GameInterface extends JFrame {
 
     private JPanel painelMaoJogador1;
     private JPanel painelMaoJogador2;
-    private JPanel infoJogador1; // Informações do Jogador 1
-    private JPanel infoJogador2; // Informações do Jogador 2
+    private JPanel infoJogador1; 
+    private JPanel infoJogador2; 
 
     
     private boolean heroiJogador1AtacadoNoTurno = false; // Jogador 1 (Bem)
@@ -48,7 +48,7 @@ public class GameInterface extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Inicialização das manas e controle de turnos
+        
         manaJogador1 = new Mana();
         manaJogador2 = new Mana();
         controleTurnos = new ControleTurnos();
@@ -76,7 +76,7 @@ public class GameInterface extends JFrame {
         lblTurno.setText(controleTurnos.isTurnoDoJogador1() ? "Turno: Jogador 1" : "Turno: Jogador 2");
         lblTurno.setForeground(controleTurnos.isTurnoDoJogador1() ? Color.YELLOW : Color.RED);
 
-        // Atualizar o texto do botão para refletir o turno
+        
         btnEndTurn.setText(controleTurnos.isTurnoDoJogador1() ? "Turno Jogador 1" : "Turno Jogador 2");
     }
 
@@ -87,7 +87,7 @@ public class GameInterface extends JFrame {
         setLayout(new BorderLayout());
         getContentPane().setBackground(backgroundColor);
 
-        // Configurar cristais de mana
+        
         manaCristais = new JLabel[2][10]; // Array para cristais de mana dos dois jogadores
         JPanel painelManaJogador1 = new JPanel(new GridLayout(1, 10));
         JPanel painelManaJogador2 = new JPanel(new GridLayout(1, 10));
@@ -108,19 +108,19 @@ public class GameInterface extends JFrame {
         painelManaContainer.setBackground(new Color(102, 51, 0));
 
 
-        // Configurar o painel superior para o Jogador 2 (Mal)
+        
         JPanel painelSuperiorInimigo = new JPanel(new BorderLayout());
         painelSuperiorInimigo.setBackground(backgroundColor);
 
         infoJogador2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         infoJogador2.setBackground(backgroundColor);
 
-        // Configurar imagem e vida do Jogador 2 (Mal)
+        
         ImageIcon jogador2Icone = new ImageIcon(new ImageIcon("src/fotos/mal.png").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
         JLabel jogador2Imagem = new JLabel(jogador2Icone);
         jogador2Imagem.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3));
 
-     // Adicionar suporte a drop na imagem do Jogador 2
+     
         new DropTarget(jogador2Imagem, new DropTargetAdapter() {
             @Override
             public void drop(DropTargetDropEvent evt) {
@@ -129,23 +129,23 @@ public class GameInterface extends JFrame {
                     Transferable transferable = evt.getTransferable();
                     Carta carta = (Carta) transferable.getTransferData(new DataFlavor(Carta.class, "Carta"));
 
-                    // Verificar se é o turno correto
+                    
                     if (!controleTurnos.isTurnoDoJogador1()) {
                         JOptionPane.showMessageDialog(null, "Não é o seu turno para atacar o Mal!");
                         evt.dropComplete(false);
                         return;
                     }
 
-                    // Verificar se o herói já foi atacado
+                    
                     if (heroiJogador2AtacadoNoTurno) {
                         JOptionPane.showMessageDialog(null, "O herói do Jogador 2 já foi atacado neste turno!");
                         evt.dropComplete(false);
                         return;
                     }
 
-                    // Reduzir vida do Jogador 2 (Mal)
+                    
                     reduzirVidaJogador2(carta.getAtaque());
-                    heroiJogador2AtacadoNoTurno = true; // Marcar como atacado
+                    heroiJogador2AtacadoNoTurno = true; 
                     evt.dropComplete(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -165,14 +165,14 @@ public class GameInterface extends JFrame {
         painelSuperiorInimigo.add(infoJogador2, BorderLayout.WEST);
         painelSuperiorInimigo.add(painelMaoJogador2, BorderLayout.CENTER);
 
-        // Configurar o campo de batalha
+        
         JPanel campoBatalha = new JPanel(new GridLayout(2, 1));
         campoBatalha.setBackground(backgroundColor);
         campoBatalha.setPreferredSize(new Dimension(800, 280));
         campoBatalha.add(estrutura.getPainelCampoJogador2());
         campoBatalha.add(estrutura.getPainelCampoJogador1());
 
-        // Configurar o painel inferior para o Jogador 1 (Bem)
+        
         JPanel painelInferior = new JPanel(new BorderLayout());
         painelInferior.setBackground(backgroundColor);
         painelInferior.add(estrutura.getPainelMaoJogador1(), BorderLayout.CENTER);
@@ -180,12 +180,12 @@ public class GameInterface extends JFrame {
         infoJogador1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         infoJogador1.setBackground(backgroundColor);
 
-        // Configurar imagem e vida do Jogador 1 (Bem)
+        
         ImageIcon jogador1Icone = new ImageIcon(new ImageIcon("src/fotos/Bom.png").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
         JLabel jogador1Imagem = new JLabel(jogador1Icone);
         jogador1Imagem.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3));
 
-     // Adicionar suporte a drop na imagem do Jogador 1
+     
         new DropTarget(jogador1Imagem, new DropTargetAdapter() {
             @Override
             public void drop(DropTargetDropEvent evt) {
@@ -194,23 +194,23 @@ public class GameInterface extends JFrame {
                     Transferable transferable = evt.getTransferable();
                     Carta carta = (Carta) transferable.getTransferData(new DataFlavor(Carta.class, "Carta"));
 
-                    // Verificar se é o turno correto
+                    
                     if (controleTurnos.isTurnoDoJogador1()) {
                         JOptionPane.showMessageDialog(null, "Não é o seu turno para atacar o Bem!");
                         evt.dropComplete(false);
                         return;
                     }
 
-                    // Verificar se o herói já foi atacado
+                    
                     if (heroiJogador1AtacadoNoTurno) {
                         JOptionPane.showMessageDialog(null, "O herói do Jogador 1 já foi atacado neste turno!");
                         evt.dropComplete(false);
                         return;
                     }
 
-                    // Reduzir vida do Jogador 1 (Bem)
+                    
                     reduzirVidaJogador1(carta.getAtaque());
-                    heroiJogador1AtacadoNoTurno = true; // Marcar como atacado
+                    heroiJogador1AtacadoNoTurno = true; 
                     evt.dropComplete(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -228,13 +228,13 @@ public class GameInterface extends JFrame {
 
         painelInferior.add(infoJogador1, BorderLayout.WEST);
 
-        // Inicializar e configurar lblTurno
+        
         lblTurno = new JLabel("Turno: Jogador 1");
         lblTurno.setFont(new Font("Serif", Font.BOLD, 20));
         lblTurno.setForeground(Color.YELLOW);
         painelInferior.add(lblTurno, BorderLayout.NORTH);
 
-        // Configurar botão de fim de turno
+        
         btnEndTurn = new JButton("Turno Jogador 1");
         btnEndTurn.setFont(new Font("Serif", Font.BOLD, 12));
         btnEndTurn.setBackground(new Color(102, 51, 0));
@@ -244,7 +244,7 @@ public class GameInterface extends JFrame {
         add(painelSuperiorInimigo, BorderLayout.NORTH);
         add(campoBatalha, BorderLayout.CENTER);
         add(painelInferior, BorderLayout.SOUTH);
-        add(painelManaContainer, BorderLayout.WEST); // Adicionando cristais de mana à interface
+        add(painelManaContainer, BorderLayout.WEST); 
     }
 
 
@@ -269,7 +269,7 @@ public class GameInterface extends JFrame {
         heroiJogador1AtacadoNoTurno = false; 
         heroiJogador2AtacadoNoTurno = false;
 
-        resetarEstadoDeAtaqueDasCartas(); // Reinicia o estado de ataque das cartas.
+        resetarEstadoDeAtaqueDasCartas(); 
 
         if (controleTurnos.isTurnoDoJogador1()) {
             manaJogador1.aumentarMana();
@@ -307,22 +307,22 @@ public class GameInterface extends JFrame {
     }
     
     private void reduzirVidaJogador1(int dano) {
-        vidaJogador1 -= dano; // Reduz a vida do Jogador 1
-        jogador1VidaLabel.setText("Vida: " + vidaJogador1); // Atualiza o rótulo de vida na interface
+        vidaJogador1 -= dano; 
+        jogador1VidaLabel.setText("Vida: " + vidaJogador1); 
 
-        if (vidaJogador1 <= 0) { // Verifica se o Jogador 1 perdeu
-            JOptionPane.showMessageDialog(this, "O Jogador 2 venceu!"); // Exibe mensagem de vitória
-            System.exit(0); // Encerra o jogo
+        if (vidaJogador1 <= 0) { 
+            JOptionPane.showMessageDialog(this, "O Jogador 2 venceu!"); 
+            System.exit(0); 
         }
     }
 
     private void reduzirVidaJogador2(int dano) {
-        vidaJogador2 -= dano; // Reduz a vida do Jogador 2
-        jogador2VidaLabel.setText("Vida: " + vidaJogador2); // Atualiza o rótulo de vida na interface
+        vidaJogador2 -= dano; 
+        jogador2VidaLabel.setText("Vida: " + vidaJogador2); 
 
-        if (vidaJogador2 <= 0) { // Verifica se o Jogador 2 perdeu
-            JOptionPane.showMessageDialog(this, "O Jogador 1 venceu!"); // Exibe mensagem de vitória
-            System.exit(0); // Encerra o jogo
+        if (vidaJogador2 <= 0) { 
+            JOptionPane.showMessageDialog(this, "O Jogador 1 venceu!"); 
+            System.exit(0); 
         }
     }
     
