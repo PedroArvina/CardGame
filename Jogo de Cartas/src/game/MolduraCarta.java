@@ -20,12 +20,12 @@ public class MolduraCarta extends JPanel implements DragGestureListener, DragSou
     private Timer timer;
     private Estrutura estrutura;
     private ControleTurnos controleTurnos; 
-    private JLabel jogador1VidaLabel; // Atributo para exibir a vida do Jogador 1
-    private JLabel jogador2VidaLabel;// Novo campo para ControleTurnos
+    private JLabel jogador1VidaLabel; 
+    private JLabel jogador2VidaLabel;
     private int vidaJogador1 = 30;
     private int vidaJogador2 = 30;
 
-    // Construtor atualizado para aceitar ControleTurnos
+    
     public MolduraCarta(Carta carta, Estrutura estrutura, ControleTurnos controleTurnos, boolean dono) {
         this.carta = carta;
         this.estrutura = estrutura;
@@ -94,7 +94,7 @@ public class MolduraCarta extends JPanel implements DragGestureListener, DragSou
                         return;
                     }
 
-                    // Verificar se a carta não está na mão antes de permitir o ataque
+                    
                     if (molduraAtacante.getParent() == estrutura.getPainelMaoJogador1() || 
                         molduraAtacante.getParent() == estrutura.getPainelMaoJogador2() || 
                         getParent() == estrutura.getPainelMaoJogador1() || 
@@ -149,7 +149,7 @@ public class MolduraCarta extends JPanel implements DragGestureListener, DragSou
             throw new CartaInvalidaException("Carta não encontrada no campo.");
         }
 
-        // Verificar se é um ataque direto ao personagem "Bem" ou "Mal"
+        
         if (molduraAtacada == null) {
             if (cartaAtacada.getNome().equals("Bem")) {
                 if (!molduraAtacante.isDono()) {
@@ -169,7 +169,7 @@ public class MolduraCarta extends JPanel implements DragGestureListener, DragSou
             return; // Fim do combate direto ao personagem
         }
 
-        // Verificar se a carta atacante já atacou no turno
+        
         if (molduraAtacante.jaAtacouNoTurno()) {
             throw new CartaInvalidaException("Esta carta já atacou neste turno!");
         }
