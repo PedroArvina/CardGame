@@ -4,6 +4,14 @@ import cards.Carta;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+//apagar, inútil para o jogo
+
+
+
+
+
 public class Jogador {
 
     private String nome;
