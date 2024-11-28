@@ -22,7 +22,7 @@ public class Mana {
             manaTotal++;
         }
         recarregarMana();
-        System.out.println("Mana Atual: " + manaAtual + " / Mana Total: " + manaTotal); // Para fins de depuração
+        System.out.println("Mana Atual: " + manaAtual + " / Mana Total: " + manaTotal); 
         if (listener != null) {
             listener.onManaUpdated(manaAtual);
         }
