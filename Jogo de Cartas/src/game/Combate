@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Combate {
 
-    private List<String> logCombate; // Armazena o log de combate com informações sobre as cartas destruídas
-    private Estrutura estrutura; // Referência à estrutura do jogo
+    private List<String> logCombate; 
+    private Estrutura estrutura; 
 
     public Combate(Estrutura estrutura) {
         this.logCombate = new ArrayList<>();
@@ -23,10 +23,10 @@ public class Combate {
 
         System.out.println("Combate entre " + atacante.getNome() + " e " + defensor.getNome());
 
-        // O atacante inflige dano ao defensor e o defensor contra-ataca usando o método atacar
+       
         atacante.atacar(defensor);
 
-        // Verifica o resultado do combate e remove as cartas destruídas
+        
         verificarResultado(atacante, defensor, atacanteIsPlayer);
     }
 
@@ -37,13 +37,13 @@ public class Combate {
 
         if (atacanteMorto) {
             logarDestruicao(atacante, atacanteIsPlayer);
-            // Remover a carta atacante do tabuleiro do jogador
+            
             removerCartaDoCampo(atacante, atacanteIsPlayer);
         }
 
         if (defensorMorto) {
             logarDestruicao(defensor, !atacanteIsPlayer);
-            // Remover a carta defensora do tabuleiro do inimigo
+            
             removerCartaDoCampo(defensor, !atacanteIsPlayer);
         }
     }
@@ -62,7 +62,7 @@ public class Combate {
         String quem = pertenceAoPlayer ? "Jogador" : "Inimigo";
         String log = "Carta destruída: " + carta.getNome() + " (Pertencia ao " + quem + ")";
         logCombate.add(log);
-        System.out.println(log); // Opcional: mostra o log no console
+        System.out.println(log); 
     }
 
     public List<String> getLogCombate() {
