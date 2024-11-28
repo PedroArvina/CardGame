@@ -18,17 +18,17 @@ public class CemiterioWindow extends JFrame {
 
         setTitle("Cemitério de Cartas");
         setSize(400, 300);
-        setLocationRelativeTo(null); // Centraliza a janela
+        setLocationRelativeTo(null); 
         setLayout(new BorderLayout());
 
         textArea = new JTextArea();
         textArea.setEditable(false);
 
-        add(new JScrollPane(textArea), BorderLayout.CENTER); // Adiciona barra de rolagem
+        add(new JScrollPane(textArea), BorderLayout.CENTER);
 
-        // Inicia um javax.swing.Timer para atualizar o conteúdo a cada segundo
+        
         swingTimer = new Timer(1000, e -> atualizarCemiterio());
-        swingTimer.start(); // Inicia o timer para atualizações periódicas
+        swingTimer.start(); 
     }
 
     private void atualizarCemiterio() {
