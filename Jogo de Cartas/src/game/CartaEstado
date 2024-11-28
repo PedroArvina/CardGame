@@ -4,6 +4,12 @@ import java.util.Map;
 
 import cards.Carta;
 
+
+//Sem Função, apagar
+
+
+
+
 public class CartaEstado {
     private int id;
     private int ataque;
