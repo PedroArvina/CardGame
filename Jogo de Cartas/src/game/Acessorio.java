@@ -17,7 +17,7 @@ public class Acessorio {
         this.maoJogador = new ArrayList<>();
         this.bolinhoJogador = new ArrayList<>();
 
-        // Definindo as cartas com base nos IDs selecionados
+        
         DefinicaoCartaCriatura definicaoCriatura = new DefinicaoCartaCriatura();
         DefinicaoCartaEncantamento definicaoEncantamento = new DefinicaoCartaEncantamento();
         DefinicaoCartaFeitico definicaoFeitico = new DefinicaoCartaFeitico();
